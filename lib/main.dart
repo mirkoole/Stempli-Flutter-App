@@ -89,14 +89,13 @@ class _StempliAppState extends State<StempliAppState> {
 
   _readState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    showSeconds = prefs.getBool('showSeconds') ?? true;
 
     setState(() {
       _working = prefs.getBool('working') ?? false;
       _workTimeTotal = prefs.getInt('workTimeTotal') ?? 0;
       _breakTimeTotal = prefs.getInt('breakTimeTotal') ?? 0;
       _lastToggleTimestamp = prefs.getInt('lastToggleTimestamp') ?? 0;
-
-      showSeconds = prefs.getBool('showSeconds') ?? true;
     });
   }
 
@@ -114,9 +113,9 @@ class _StempliAppState extends State<StempliAppState> {
 
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
 
     if (showSeconds) {
+      String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
       return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
     } else {
       return "${twoDigits(duration.inHours)}:$twoDigitMinutes";
@@ -125,6 +124,7 @@ class _StempliAppState extends State<StempliAppState> {
 
   void _displayTimer(Timer? timer) {
     if (_lastToggleTimestamp == 0) return;
+
     int nowTimeStamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     int workCountdownTotalLive = 0;
 
