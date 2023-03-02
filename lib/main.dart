@@ -185,11 +185,35 @@ class _StempliAppState extends State<StempliAppState> {
   }
 
   void _resetTimer() {
+    // save vars for possible undo
+    bool old_working = _working;
+    int old_lastToggleTimestamp = _lastToggleTimestamp;
+    int old_workTimeTotal = _workTimeTotal;
+    int old_breakTimeTotal = _breakTimeTotal;
+
+    // reset vars
     _working = false;
     _lastToggleTimestamp = 0;
     _workTimeTotal = 0;
     _breakTimeTotal = 0;
     _toggleTimer();
+
+    // show snackbar
+    final snackBar = SnackBar(
+      duration: Duration(seconds: 10),
+      content: const Text('Timer reset done. Have a nice day 🙂'),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          _working = old_working;
+          _lastToggleTimestamp = old_lastToggleTimestamp;
+          _workTimeTotal = old_workTimeTotal;
+          _breakTimeTotal = old_breakTimeTotal;
+        },
+      ),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -223,21 +247,33 @@ class _StempliAppState extends State<StempliAppState> {
               value: _progressBarValue,
               semanticsLabel: 'Linear progress indicator',
             ),
-            Text(
-              '⏱️ Work Countdown',
-              style: Theme.of(context).textTheme.headlineLarge,
-            ),
-            Text(
-              _workCountdownTotalString,
-              style: const TextStyle(
-                color: Colors.white60,
-                fontWeight: FontWeight.w100,
-                fontSize: 80,
+            GestureDetector(
+              onTap: _toggleTimer,
+              onLongPress: _resetTimer,
+              onPanUpdate: (d) {
+                if (d.delta.dx > 0) _resetTimer();
+              },
+              child: Column(
+                children: [
+                  Text(
+                    '⏱️ Work Countdown',
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                  Text(
+                    _workCountdownTotalString,
+                    style: const TextStyle(
+                      color: Colors.white60,
+                      fontWeight: FontWeight.w100,
+                      fontSize: 80,
+                    ),
+                  ),
+                ],
               ),
             ),
             const Spacer(flex: 1),
             GestureDetector(
               onTap: _toggleTimer,
+              onLongPress: _resetTimer,
               child: Column(
                 children: [
                   Text(
@@ -258,6 +294,7 @@ class _StempliAppState extends State<StempliAppState> {
             const Spacer(flex: 1),
             GestureDetector(
               onTap: _toggleTimer,
+              onLongPress: _resetTimer,
               child: Column(
                 children: [
                   Text(
@@ -283,8 +320,7 @@ class _StempliAppState extends State<StempliAppState> {
         onPressed: _toggleTimer,
         tooltip: 'Toggle',
         foregroundColor: Colors.white,
-        child:
-            _working ? const Icon(Icons.pause) : const Icon(Icons.play_arrow),
+        child: _working ? const Icon(Icons.coffee) : const Icon(Icons.work),
       ),
     );
   }
