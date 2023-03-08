@@ -64,6 +64,7 @@ class _StempliAppState extends State<StempliAppState> {
   // settings
   int workday = 8 * 60 * 60;
   bool showSeconds = true;
+  int adjustInterval = 60 * 10;
 
   // internal vars
   Timer? _timer;
@@ -184,12 +185,47 @@ class _StempliAppState extends State<StempliAppState> {
     _saveState();
   }
 
+  void _fixTimer() {
+    if (_breakTimeTotal < adjustInterval) {
+      _showSimpleSnackBar("This works only after 10 minutes of break.",
+          const Duration(seconds: 10));
+      return;
+    }
+
+    _workTimeTotal += adjustInterval;
+    _breakTimeTotal -= adjustInterval;
+
+    final snackBar = SnackBar(
+      duration: const Duration(seconds: 10),
+      content: const Text(
+          'Timer adjusted! 10 Minutes moved from break to work time.'),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          _workTimeTotal -= adjustInterval;
+          _breakTimeTotal += adjustInterval;
+        },
+      ),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _showSimpleSnackBar(String title, Duration duration) {
+    final snackBar = SnackBar(
+      duration: duration,
+      content: Text(title),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   void _resetTimer() {
     // save vars for possible undo
-    bool old_working = _working;
-    int old_lastToggleTimestamp = _lastToggleTimestamp;
-    int old_workTimeTotal = _workTimeTotal;
-    int old_breakTimeTotal = _breakTimeTotal;
+    bool oldWorking = _working;
+    int oldLastToggleTimestamp = _lastToggleTimestamp;
+    int oldWorkTimeTotal = _workTimeTotal;
+    int oldBreakTimeTotal = _breakTimeTotal;
 
     // reset vars
     _working = false;
@@ -198,17 +234,17 @@ class _StempliAppState extends State<StempliAppState> {
     _breakTimeTotal = 0;
     _toggleTimer();
 
-    // show snackbar
+    // show snackBar
     final snackBar = SnackBar(
-      duration: Duration(seconds: 10),
+      duration: const Duration(seconds: 10),
       content: const Text('Timer reset done. Have a nice day 🙂'),
       action: SnackBarAction(
         label: 'Undo',
         onPressed: () {
-          _working = old_working;
-          _lastToggleTimestamp = old_lastToggleTimestamp;
-          _workTimeTotal = old_workTimeTotal;
-          _breakTimeTotal = old_breakTimeTotal;
+          _working = oldWorking;
+          _lastToggleTimestamp = oldLastToggleTimestamp;
+          _workTimeTotal = oldWorkTimeTotal;
+          _breakTimeTotal = oldBreakTimeTotal;
         },
       ),
     );
@@ -230,10 +266,19 @@ class _StempliAppState extends State<StempliAppState> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(
+              Icons.auto_fix_high,
+              color: Colors.white,
+            ),
+            onPressed: _fixTimer,
+            tooltip: "Move 10 minutes from Break to Work Time",
+          ),
+          IconButton(
+            icon: const Icon(
               Icons.refresh,
               color: Colors.white,
             ),
             onPressed: _resetTimer,
+            tooltip: "Reset Timer",
           )
         ],
       ),
@@ -318,7 +363,7 @@ class _StempliAppState extends State<StempliAppState> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _toggleTimer,
-        tooltip: 'Toggle',
+        tooltip: 'Toggle Work and Break Timer',
         foregroundColor: Colors.white,
         child: _working ? const Icon(Icons.coffee) : const Icon(Icons.work),
       ),
