@@ -282,83 +282,87 @@ class _StempliAppState extends State<StempliAppState> {
           )
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            const Spacer(flex: 3),
-            LinearProgressIndicator(
-              value: _progressBarValue,
-              semanticsLabel: 'Linear progress indicator',
-            ),
-            GestureDetector(
-              onTap: _toggleTimer,
-              onLongPress: _resetTimer,
-              onPanUpdate: (d) {
-                if (d.delta.dx > 0) _resetTimer();
-              },
-              child: Column(
-                children: [
-                  Text(
-                    '⏱️ Work Countdown',
-                    style: Theme.of(context).textTheme.headlineLarge,
-                  ),
-                  Text(
-                    _workCountdownTotalString,
-                    style: const TextStyle(
-                      color: Colors.white60,
-                      fontWeight: FontWeight.w100,
-                      fontSize: 80,
-                    ),
-                  ),
-                ],
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              const Spacer(flex: 3),
+              LinearProgressIndicator(
+                value: _progressBarValue,
+                semanticsLabel: 'Linear progress indicator',
               ),
-            ),
-            const Spacer(flex: 1),
-            GestureDetector(
-              onTap: _toggleTimer,
-              onLongPress: _resetTimer,
-              child: Column(
-                children: [
-                  Text(
-                    '💼 Work Time',
-                    style: Theme.of(context).textTheme.headlineLarge,
-                  ),
-                  Text(
-                    _workTimeTotalString,
-                    style: TextStyle(
-                      color: Colors.white60,
-                      fontWeight: _working ? FontWeight.w500 : FontWeight.w100,
-                      fontSize: 80,
+              GestureDetector(
+                onTap: _toggleTimer,
+                onLongPress: _resetTimer,
+                onPanUpdate: (d) {
+                  if (d.delta.dx > 0) _resetTimer();
+                },
+                child: Column(
+                  children: [
+                    Text(
+                      '⏱️ Work Countdown',
+                      style: Theme.of(context).textTheme.headlineLarge,
                     ),
-                  ),
-                ],
-              ),
-            ),
-            const Spacer(flex: 1),
-            GestureDetector(
-              onTap: _toggleTimer,
-              onLongPress: _resetTimer,
-              child: Column(
-                children: [
-                  Text(
-                    '☕️ Break Time ',
-                    style: Theme.of(context).textTheme.headlineLarge,
-                  ),
-                  Text(
-                    _breakTimeTotalString,
-                    style: TextStyle(
-                      color: Colors.white60,
-                      fontWeight: _working ? FontWeight.w100 : FontWeight.w500,
-                      fontSize: 80,
+                    Text(
+                      _workCountdownTotalString,
+                      style: const TextStyle(
+                        color: Colors.white60,
+                        fontWeight: FontWeight.w100,
+                        fontSize: 80,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            const Spacer(flex: 3),
-          ],
+              const Spacer(flex: 1),
+              GestureDetector(
+                onTap: _toggleTimer,
+                onLongPress: _resetTimer,
+                child: Column(
+                  children: [
+                    Text(
+                      '💼 Work Time',
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ),
+                    Text(
+                      _workTimeTotalString,
+                      style: TextStyle(
+                        color: Colors.white60,
+                        fontWeight:
+                            _working ? FontWeight.w500 : FontWeight.w100,
+                        fontSize: 80,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Spacer(flex: 1),
+              GestureDetector(
+                onTap: _toggleTimer,
+                onLongPress: _resetTimer,
+                child: Column(
+                  children: [
+                    Text(
+                      '☕️ Break Time ',
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ),
+                    Text(
+                      _breakTimeTotalString,
+                      style: TextStyle(
+                        color: Colors.white60,
+                        fontWeight:
+                            _working ? FontWeight.w100 : FontWeight.w500,
+                        fontSize: 80,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Spacer(flex: 3),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
