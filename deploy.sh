@@ -8,4 +8,6 @@ flutter build web --base-href /Stempli-Flutter-App/
 
 mv build/web docs
 
-git 
+git commit -am "deploy web"
+
+git push
