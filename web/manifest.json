@@ -1,6 +1,6 @@
 {
-    "name": "stempli_flutter",
-    "short_name": "stempli_flutter",
+    "name": "Stempli",
+    "short_name": "Stempli",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
