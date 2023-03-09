@@ -74,6 +74,7 @@ class _StempliAppState extends State<StempliAppState> {
   int _lastToggleTimestamp = 0;
   int _workTimeTotal = 0;
   int _breakTimeTotal = 0;
+  int breakTimeTotalLive = 0;
 
   double _progressBarValue = 0.0;
 
@@ -147,7 +148,7 @@ class _StempliAppState extends State<StempliAppState> {
         _progressBarValue = workTimeTotalLive / workday;
       } else {
         // do calc
-        int breakTimeTotalLive =
+        breakTimeTotalLive =
             _breakTimeTotal + nowTimeStamp - _lastToggleTimestamp;
         workCountdownTotalLive = workday - _workTimeTotal;
 
@@ -188,8 +189,8 @@ class _StempliAppState extends State<StempliAppState> {
     _saveState();
   }
 
-  void _fixTimer() {
-    if (_breakTimeTotal < adjustInterval) {
+  void _fixTimer() async {
+    if (breakTimeTotalLive < adjustInterval) {
       _showSimpleSnackBar("This works only after 10 minutes of break.",
           const Duration(seconds: 10));
       return;
