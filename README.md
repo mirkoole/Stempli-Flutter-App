@@ -16,6 +16,6 @@ Stempli is an app to track your daily work time and break time easily.
 
 ## Tested Versions
 
-- ✅ Android
+- ✅ [Android](https://github.com/mirkoole/Stempli-Flutter-App/releases/download/v1.1.0/app-release.apk)
 - ✅ iOS
 - ✅ [Web](https://mirkoole.github.io/Stempli-Flutter-App/)
