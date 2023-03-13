@@ -46,7 +46,7 @@ class StempliApp extends StatelessWidget {
         ),
         dividerColor: Colors.black12,
       ),
-      home: const StempliAppState(title: 'Stempli App 1.0'),
+      home: const StempliAppState(title: 'Stempli App'),
     );
   }
 }
@@ -189,6 +189,25 @@ class _StempliAppState extends State<StempliAppState> {
     _saveState();
   }
 
+  void _plusTimer() async {
+
+    _workTimeTotal += adjustInterval;
+
+    final snackBar = SnackBar(
+      duration: const Duration(seconds: 10),
+      content: const Text(
+          'Timer adjusted! 10 Minutes added to work time.'),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          _workTimeTotal -= adjustInterval;
+        },
+      ),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   void _fixTimer() async {
     if (breakTimeTotalLive < adjustInterval) {
       _showSimpleSnackBar("This works only after 10 minutes of break.",
@@ -268,6 +287,14 @@ class _StempliAppState extends State<StempliAppState> {
       appBar: AppBar(
         title: Text(widget.title),
         actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.plus_one_rounded,
+              color: Colors.white,
+            ),
+            onPressed: _plusTimer,
+            tooltip: "Add 10 minutes to Work Time",
+          ),
           IconButton(
             icon: const Icon(
               Icons.auto_fix_high,
