@@ -11,4 +11,4 @@ git push
 # build android app
 flutter build apk
 flutter build apk --split-per-abi
-
+flutter build appbundle
