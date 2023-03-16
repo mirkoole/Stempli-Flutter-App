@@ -25,6 +25,6 @@ Work Time | Break Time
 
 ## Tested Versions
 
-- ✅ [Android](https://github.com/mirkoole/Stempli-Flutter-App/releases/download/v1.1.0/app-release.apk)
+- ✅ [Android](https://github.com/mirkoole/Stempli-Flutter-App/releases/download/v1.2.0/app-release.apk)
 - ✅ iOS
 - ✅ [Web](https://mirkoole.github.io/Stempli-Flutter-App/)
