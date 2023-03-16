@@ -15,48 +15,55 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   // settings
-  int workday = 8 * 60 * 60;
-  bool showSeconds =
-      Settings.getValue<bool>("key-seconds-enabled", defaultValue: true) != null
-          ? true
-          : false;
-  bool showCountdown =
-      Settings.getValue<bool>("key-countdown-enabled", defaultValue: true) !=
-              null
-          ? true
-          : false;
-  int adjustInterval = 60 * 10;
+  int _dailyWorkTime = 0;
+  bool _showSeconds = true;
+  bool _showCountdown = true;
+  int _adjustInterval = 0;
 
   // internal vars
   Timer? _timer;
 
-  bool _working = false;
+  bool _working = true;
 
   int _lastToggleTimestamp = 0;
   int _workTimeTotal = 0;
   int _breakTimeTotal = 0;
-  int breakTimeTotalLive = 0;
+  int _breakTimeTotalLive = 0;
 
   double _progressBarValue = 0.0;
 
-  String _workCountdownTotalString = "00:00:00";
-  String _workTimeTotalString = "00:00:00";
-  String _breakTimeTotalString = "00:00:00";
+  String _workCountdownTotalString = " ";
+  String _workTimeTotalString = " ";
+  String _breakTimeTotalString = " ";
 
   @override
   void initState() {
     super.initState();
+
     _readState();
+
+    // show timer instantly on app launch
+    Timer.run(() {
+      _displayTimer(_timer);
+    });
+
+    // call display timer every second to update view
     _timer = Timer.periodic(const Duration(seconds: 1), _displayTimer);
   }
 
   _readState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    showSeconds = prefs.getBool('key-seconds-enabled') ?? true;
-    showCountdown = prefs.getBool('key-countdown-enabled') ?? true;
+
+    _dailyWorkTime =
+        (60 * 60 * Settings.getValue<double>("dailyWorkTime", defaultValue: 8)!)
+            .toInt();
+    _showSeconds = Settings.getValue<bool>("showSeconds", defaultValue: true)!;
+    _showCountdown =
+        Settings.getValue<bool>("showCountdown", defaultValue: true)!;
+    _adjustInterval = prefs.getInt('adjustInterval') ?? 60 * 10;
 
     setState(() {
-      _working = prefs.getBool('working') ?? false;
+      _working = prefs.getBool('working') ?? true;
       _workTimeTotal = prefs.getInt('workTimeTotal') ?? 0;
       _breakTimeTotal = prefs.getInt('breakTimeTotal') ?? 0;
       _lastToggleTimestamp = prefs.getInt('lastToggleTimestamp') ?? 0;
@@ -81,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
 
-    if (showSeconds) {
+    if (_showSeconds) {
       String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
       return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
     } else {
@@ -102,26 +109,26 @@ class _HomeScreenState extends State<HomeScreen> {
         // do calc
         int workTimeTotalLive =
             _workTimeTotal + nowTimeStamp - _lastToggleTimestamp;
-        workCountdownTotalLive = workday - workTimeTotalLive;
+        workCountdownTotalLive = _dailyWorkTime - workTimeTotalLive;
 
         // set strings
         _workTimeTotalString = _printFormattedTimeTotal(workTimeTotalLive);
         _breakTimeTotalString = _printFormattedTimeTotal(_breakTimeTotal);
 
         // set progressbar
-        _progressBarValue = workTimeTotalLive / workday;
+        _progressBarValue = workTimeTotalLive / _dailyWorkTime;
       } else {
         // do calc
-        breakTimeTotalLive =
+        _breakTimeTotalLive =
             _breakTimeTotal + nowTimeStamp - _lastToggleTimestamp;
-        workCountdownTotalLive = workday - _workTimeTotal;
+        workCountdownTotalLive = _dailyWorkTime - _workTimeTotal;
 
         // set strings
         _workTimeTotalString = _printFormattedTimeTotal(_workTimeTotal);
-        _breakTimeTotalString = _printFormattedTimeTotal(breakTimeTotalLive);
+        _breakTimeTotalString = _printFormattedTimeTotal(_breakTimeTotalLive);
 
         // set progressbar
-        _progressBarValue = _workTimeTotal / workday;
+        _progressBarValue = _workTimeTotal / _dailyWorkTime;
       }
 
       // set work countdown
@@ -153,16 +160,19 @@ class _HomeScreenState extends State<HomeScreen> {
     _saveState();
   }
 
-  void _plusTimer() async {
-    _workTimeTotal += adjustInterval;
+  void _plusWorkTime() {
+    _workTimeTotal += _adjustInterval;
+    _saveState();
 
     final snackBar = SnackBar(
       duration: const Duration(seconds: 10),
-      content: const Text('Timer adjusted! 10 Minutes added to work time.'),
+      content: Text(
+          "${_adjustInterval ~/ 60} Minutes added to Work Time."),
       action: SnackBarAction(
         label: 'Undo',
         onPressed: () {
-          _workTimeTotal -= adjustInterval;
+          _workTimeTotal -= _adjustInterval;
+          _saveState();
         },
       ),
     );
@@ -170,25 +180,47 @@ class _HomeScreenState extends State<HomeScreen> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  void _fixTimer() async {
-    if (breakTimeTotalLive < adjustInterval) {
-      _showSimpleSnackBar("This works only after 10 minutes of break.",
+  void _plusBreakTime() {
+    _breakTimeTotal += _adjustInterval;
+    _saveState();
+
+    final snackBar = SnackBar(
+      duration: const Duration(seconds: 10),
+      content: Text(
+          "${_adjustInterval ~/ 60} Minutes added to Break Time."),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          _breakTimeTotal -= _adjustInterval;
+          _saveState();
+        },
+      ),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _moveBreakToWorkTime() {
+    if (_breakTimeTotalLive < _adjustInterval || _breakTimeTotal < _adjustInterval) {
+      _showSimpleSnackBar(
+          "This works when Break Time is greater than ${_adjustInterval ~/ 60} Minutes.",
           const Duration(seconds: 10));
       return;
     }
 
-    _workTimeTotal += adjustInterval;
-    _breakTimeTotal -= adjustInterval;
+    _workTimeTotal += _adjustInterval;
+    _breakTimeTotal -= _adjustInterval;
+    _saveState();
 
     final snackBar = SnackBar(
       duration: const Duration(seconds: 10),
-      content: const Text(
-          'Timer adjusted! 10 Minutes moved from break to work time.'),
+      content: Text(
+          '${_adjustInterval~/60} Minutes moved from Break to Work Time.'),
       action: SnackBarAction(
         label: 'Undo',
         onPressed: () {
-          _workTimeTotal -= adjustInterval;
-          _breakTimeTotal += adjustInterval;
+          _workTimeTotal -= _adjustInterval;
+          _breakTimeTotal += _adjustInterval;
         },
       ),
     );
@@ -251,19 +283,28 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(
-              Icons.plus_one_rounded,
+              Icons.work,
               color: Colors.white,
             ),
-            onPressed: _plusTimer,
-            tooltip: "Add 10 minutes to Work Time",
+            onPressed: _plusWorkTime,
+            tooltip: "Add ${_adjustInterval ~/ 60} minutes to Work Time",
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.coffee,
+              color: Colors.white,
+            ),
+            onPressed: _plusBreakTime,
+            tooltip: "Add ${_adjustInterval ~/ 60} minutes to Work Time",
           ),
           IconButton(
             icon: const Icon(
               Icons.auto_fix_high,
               color: Colors.white,
             ),
-            onPressed: _fixTimer,
-            tooltip: "Move 10 minutes from Break to Work Time",
+            onPressed: _moveBreakToWorkTime,
+            tooltip:
+                "Move ${_adjustInterval ~/ 60} minutes from Break to Work Time",
           ),
           IconButton(
             icon: const Icon(
@@ -294,7 +335,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 value: _progressBarValue,
                 semanticsLabel: 'Linear progress indicator',
               ),
-              showCountdown
+              _showCountdown
                   ? GestureDetector(
                       onTap: _toggleTimer,
                       onLongPress: _resetTimer,
