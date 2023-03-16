@@ -62055,10 +62055,10 @@ H(a){var s,r,q,p,o,n,m,l,k,j=this,i=null
 j.a.toString
 s=A.dJ("Stempli App",i,i,i,i,i,i)
 r=""+B.f.bw(j.r,60)
-q="Add "+r+" minutes to Work Time"
+q="Add "+r
 p=j.gWz()
 o=t.E
-s=A.adU(A.a([A.lt(i,B.Ak,i,j.gW3(),q),A.lt(i,B.Ag,i,j.gW1(),q),A.lt(i,B.Ac,i,j.gVb(),"Move "+r+" minutes from Break to Work Time"),A.lt(i,B.Aj,i,p,"Reset Timer"),A.lt(i,B.Am,i,new A.a5G(a),"Settings")],o),s)
+s=A.adU(A.a([A.lt(i,B.Ak,i,j.gW3(),q+" minutes to Work Time"),A.lt(i,B.Ag,i,j.gW1(),q+" minutes to Break Time"),A.lt(i,B.Ac,i,j.gVb(),"Move "+r+" minutes from Break to Work Time"),A.lt(i,B.Aj,i,p,"Reset Timer"),A.lt(i,B.Am,i,new A.a5G(a),"Settings")],o),s)
 r=j.at
 q=j.f?A.jz(i,A.l1(A.a([A.dJ("\u23f1\ufe0f Work Countdown",i,i,i,A.a6(a).p3.d,i,i),A.dJ(j.ax,i,i,i,B.HB,i,i)],o),B.aG,B.aI,B.aB),B.a8,!1,i,i,i,i,i,i,i,p,i,i,new A.a5H(j),j.gFj(),i,i,i,i,i,i):A.en(i,i,i,i,i,i,i,i,i)
 n=j.gFj()

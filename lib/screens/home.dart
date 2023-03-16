@@ -295,7 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.white,
             ),
             onPressed: _plusBreakTime,
-            tooltip: "Add ${_adjustInterval ~/ 60} minutes to Work Time",
+            tooltip: "Add ${_adjustInterval ~/ 60} minutes to Break Time",
           ),
           IconButton(
             icon: const Icon(
