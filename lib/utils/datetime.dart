@@ -1,14 +1,12 @@
-
-
 double calcWeeklyWorkTimeToDailyWorktime(
-    int weeklyWorkHours, int workDaysPerWeek) {
-  if (workDaysPerWeek < 1) return -1;
-  if (workDaysPerWeek > 7) return -1;
+    double weeklyWorkHours, int weeklyWorkDays) {
+  if (weeklyWorkDays < 1) return -1;
+  if (weeklyWorkDays > 7) return -1;
   if (weeklyWorkHours < 0) return -1;
 
   if (weeklyWorkHours == 0) return 0;
 
-  double dailyWorkTime = weeklyWorkHours / workDaysPerWeek;
+  double dailyWorkTime = weeklyWorkHours / weeklyWorkDays;
 
   return dailyWorkTime;
 }
