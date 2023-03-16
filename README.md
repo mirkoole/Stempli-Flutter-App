@@ -9,15 +9,19 @@ Work Time | Break Time
 ![Screenshot](screenshots/Screenshot1.jpg) | ![Screenshot](screenshots/Screenshot2.jpg)
 
 
+## Features
+
+- define daily work time 
+- define weekly work hours
+- define timer adjust interval
+- toggle seconds
+- toggle countdown
+
+
 ## ToDo
 
-- add settings
-    - define workday (default 8h)
-    - define timer adjust interval
-    - toggle seconds
-    - toggle countdown
-    - toggle timer via notification
-    - add locale
+- toggle timer via notification
+- add locale
 
 ## Tested Versions
 
