@@ -18791,7 +18791,7 @@ _.d=0
 _.f=_.e=!0
 _.r=0
 _.w=null
-_.x=!0
+_.x=!1
 _.at=_.as=_.Q=_.z=_.y=0
 _.ch=_.ay=_.ax=" "
 _.a=null
@@ -62028,7 +62028,7 @@ s=q.c.M(t.Cu)
 s.toString
 s.f.mg(r)},
 Vc(){var s,r=this,q=null,p=r.as,o=r.r
-if(p<o||r.Q<o){s=A.vn(q,q,q,q,B.Q,q,A.dJ("This works when Break Time is greater than "+B.f.bw(o,60)+" Minutes.",q,q,q,q,q,q),B.bQ,B.cu,q,q,q,q,q,q,q,q)
+if(p<o&&r.Q<o){s=A.vn(q,q,q,q,B.Q,q,A.dJ("This works when Break Time is greater than "+B.f.bw(o,60)+" Minutes.",q,q,q,q,q,q),B.bQ,B.cu,q,q,q,q,q,q,q,q)
 p=r.c.M(t.Cu)
 p.toString
 p.f.mg(s)
@@ -62075,7 +62075,7 @@ s.CA(s.w)},
 $S:0}
 A.a5D.prototype={
 $0(){var s=this.a,r=this.b.a,q=J.aL(r),p=A.mL(q.i(r,"working"))
-s.x=p!==!1
+s.x=p===!0
 p=A.f9(q.i(r,"workTimeTotal"))
 s.z=p==null?0:p
 p=A.f9(q.i(r,"breakTimeTotal"))
