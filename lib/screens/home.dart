@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // internal vars
   Timer? _timer;
 
-  bool _working = true;
+  bool _working = false;
 
   int _lastToggleTimestamp = 0;
   int _workTimeTotal = 0;
@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _adjustInterval = prefs.getInt('adjustInterval') ?? 60 * 10;
 
     setState(() {
-      _working = prefs.getBool('working') ?? true;
+      _working = prefs.getBool('working') ?? false;
       _workTimeTotal = prefs.getInt('workTimeTotal') ?? 0;
       _breakTimeTotal = prefs.getInt('breakTimeTotal') ?? 0;
       _lastToggleTimestamp = prefs.getInt('lastToggleTimestamp') ?? 0;
