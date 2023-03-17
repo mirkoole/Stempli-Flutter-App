@@ -201,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _moveBreakToWorkTime() {
-    if (_breakTimeTotalLive < _adjustInterval || _breakTimeTotal < _adjustInterval) {
+    if (_breakTimeTotalLive < _adjustInterval && _breakTimeTotal < _adjustInterval) {
       _showSimpleSnackBar(
           "This works when Break Time is greater than ${_adjustInterval ~/ 60} Minutes.",
           const Duration(seconds: 10));
