@@ -128,6 +128,15 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
                   title: 'Show Countdown',
                   leading: const Icon(Icons.timer),
                 ),
+                DropDownSettingsTile(
+                    leading: const Icon(Icons.language),
+                    title: "Language",
+                    settingKey: "language",
+                    selected: "de",
+                    values: const <String, String>{
+                      "de": "🇩🇪  Deutsch",
+                      "en": "🇬🇧  English"
+                    })
               ],
             ),
           ],
