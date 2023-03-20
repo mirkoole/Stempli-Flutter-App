@@ -129,10 +129,11 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
                   leading: const Icon(Icons.timer),
                 ),
                 DropDownSettingsTile(
+                    enabled: false,
                     leading: const Icon(Icons.language),
-                    title: "Language",
+                    title: "Language (coming soon)",
                     settingKey: "language",
-                    selected: "de",
+                    selected: "en",
                     values: const <String, String>{
                       "de": "🇩🇪  Deutsch",
                       "en": "🇬🇧  English"
