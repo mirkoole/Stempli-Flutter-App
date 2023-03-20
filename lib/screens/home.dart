@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+
+import '../utils/datetime.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.title});
@@ -14,14 +15,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // settings
-  int _dailyWorkTime = 0;
-  int _adjustInterval = 0;
+  // default values
+  double _weeklyWorkHours = 40.0;
+  int _weeklyWorkDays = 5;
+  int _dailyWorkTime = 8 * 60 * 60;
+
+  int _adjustInterval = 10 * 60;
   bool _showSeconds = true;
   bool _showCountdown = true;
 
   Timer? _timer;
-  bool _working = true;
+  bool _working = false;
 
   int _lastToggleTimestamp = 0;
   int _workTimeTotal = 0;
@@ -49,27 +53,37 @@ class _HomeScreenState extends State<HomeScreen> {
     _timer = Timer.periodic(const Duration(seconds: 1), _displayTimer);
   }
 
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   _readState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    double dwt = Settings.getValue<double>("dailyWorkTime", defaultValue: 8)!;
+    _weeklyWorkHours = prefs.getDouble('weeklyWorkHours') ?? _weeklyWorkHours;
+    _weeklyWorkDays = prefs.getInt('weeklyWorkDays') ?? _weeklyWorkDays;
+    _dailyWorkTime =
+        (calcWeeklyWorkTimeToDailyWorktime(_weeklyWorkHours, _weeklyWorkDays) *
+                60 *
+                60)
+            .toInt();
 
-    setState(() {
-      _showSeconds =
-          Settings.getValue<bool>("showSeconds", defaultValue: true)!;
+    _adjustInterval = prefs.getInt('adjustInterval') ?? _adjustInterval;
 
-      _showCountdown =
-          Settings.getValue<bool>("showCountdown", defaultValue: true)!;
+    _showSeconds = prefs.getBool('showSeconds') ?? _showSeconds;
+    _showCountdown = prefs.getBool('showCountdown') ?? _showCountdown;
 
-      _dailyWorkTime = (dwt * 60 * 60).toInt();
+    _working = prefs.getBool('working') ?? _working;
 
-      _adjustInterval = prefs.getInt('adjustInterval') ?? 60 * 10;
+    _lastToggleTimestamp =
+        prefs.getInt('lastToggleTimestamp') ?? _lastToggleTimestamp;
 
-      _working = prefs.getBool('working') ?? true;
-      _workTimeTotal = prefs.getInt('workTimeTotal') ?? 0;
-      _breakTimeTotal = prefs.getInt('breakTimeTotal') ?? 0;
-      _lastToggleTimestamp = prefs.getInt('lastToggleTimestamp') ?? 0;
-    });
+    _workTimeTotal = prefs.getInt('workTimeTotal') ?? _workTimeTotal;
+    _breakTimeTotal = prefs.getInt('breakTimeTotal') ?? _breakTimeTotal;
+
+    setState(() {});
   }
 
   _saveState() async {
@@ -79,6 +93,55 @@ class _HomeScreenState extends State<HomeScreen> {
     await prefs.setInt('workTimeTotal', _workTimeTotal);
     await prefs.setInt('breakTimeTotal', _breakTimeTotal);
     await prefs.setInt('lastToggleTimestamp', _lastToggleTimestamp);
+  }
+
+  void _displayTimer(Timer? timer) {
+    _readState();
+
+    if (_lastToggleTimestamp == 0) {
+      _toggleTimer();
+    }
+
+    int nowTimeStamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    int workCountdownTotalLive = 0;
+
+    if (_working) {
+      // do calc
+      int workTimeTotalLive =
+          _workTimeTotal + nowTimeStamp - _lastToggleTimestamp;
+
+      workCountdownTotalLive = _dailyWorkTime - workTimeTotalLive;
+
+      // set strings
+      _workTimeTotalString = _printFormattedTimeTotal(workTimeTotalLive);
+      _breakTimeTotalString = _printFormattedTimeTotal(_breakTimeTotal);
+
+      // set progressbar
+      _progressBarValue = workTimeTotalLive / _dailyWorkTime;
+    } else {
+      // do calc
+      _breakTimeTotalLive =
+          _breakTimeTotal + nowTimeStamp - _lastToggleTimestamp;
+      workCountdownTotalLive = _dailyWorkTime - _workTimeTotal;
+
+      // set strings
+      _workTimeTotalString = _printFormattedTimeTotal(_workTimeTotal);
+      _breakTimeTotalString = _printFormattedTimeTotal(_breakTimeTotalLive);
+
+      // set progressbar
+      _progressBarValue = _workTimeTotal / _dailyWorkTime;
+    }
+
+    // set work countdown
+    _workCountdownTotalString = workCountdownTotalLive > 0
+        ? _printFormattedTimeTotal(workCountdownTotalLive)
+        : "✅";
+
+    if (_progressBarValue > 1.0) {
+      _progressBarValue = 1.0;
+    }
+
+    setState(() {});
   }
 
   String _printFormattedTimeTotal(int durationInSeconds) {
@@ -95,184 +158,21 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void _displayTimer(Timer? timer) {
-    _readState();
-
-    if (_lastToggleTimestamp == 0) return;
-
-    int nowTimeStamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-    int workCountdownTotalLive = 0;
-
-    setState(() {
-      if (_working) {
-        // do calc
-        int workTimeTotalLive =
-            _workTimeTotal + nowTimeStamp - _lastToggleTimestamp;
-        workCountdownTotalLive = _dailyWorkTime - workTimeTotalLive;
-
-        // set strings
-        _workTimeTotalString = _printFormattedTimeTotal(workTimeTotalLive);
-        _breakTimeTotalString = _printFormattedTimeTotal(_breakTimeTotal);
-
-        // set progressbar
-        _progressBarValue = workTimeTotalLive / _dailyWorkTime;
-      } else {
-        // do calc
-        _breakTimeTotalLive =
-            _breakTimeTotal + nowTimeStamp - _lastToggleTimestamp;
-        workCountdownTotalLive = _dailyWorkTime - _workTimeTotal;
-
-        // set strings
-        _workTimeTotalString = _printFormattedTimeTotal(_workTimeTotal);
-        _breakTimeTotalString = _printFormattedTimeTotal(_breakTimeTotalLive);
-
-        // set progressbar
-        _progressBarValue = _workTimeTotal / _dailyWorkTime;
-      }
-
-      // set work countdown
-      _workCountdownTotalString = workCountdownTotalLive > 0
-          ? _printFormattedTimeTotal(workCountdownTotalLive)
-          : "✅";
-
-      if (_progressBarValue > 1.0) _progressBarValue = 1.0;
-    });
-  }
-
   void _toggleTimer() {
-    setState(() {
-      int nowTimeStamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    int nowTimeStamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
-      if (_lastToggleTimestamp != 0) {
-        if (_working) {
-          _workTimeTotal = _workTimeTotal + nowTimeStamp - _lastToggleTimestamp;
-        } else {
-          _breakTimeTotal =
-              _breakTimeTotal + nowTimeStamp - _lastToggleTimestamp;
-        }
+    if (_lastToggleTimestamp != 0) {
+      if (_working) {
+        _workTimeTotal = _workTimeTotal + nowTimeStamp - _lastToggleTimestamp;
+      } else {
+        _breakTimeTotal = _breakTimeTotal + nowTimeStamp - _lastToggleTimestamp;
       }
-
-      _working = !_working;
-      _lastToggleTimestamp = nowTimeStamp;
-    });
-
-    _saveState();
-  }
-
-  void _plusWorkTime() {
-    _workTimeTotal += _adjustInterval;
-    _saveState();
-
-    final snackBar = SnackBar(
-      duration: const Duration(seconds: 10),
-      content: Text("${_adjustInterval ~/ 60} Minutes added to Work Time."),
-      action: SnackBarAction(
-        label: 'Undo',
-        onPressed: () {
-          _workTimeTotal -= _adjustInterval;
-          _saveState();
-        },
-      ),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  void _plusBreakTime() {
-    _breakTimeTotal += _adjustInterval;
-    _saveState();
-
-    final snackBar = SnackBar(
-      duration: const Duration(seconds: 10),
-      content: Text("${_adjustInterval ~/ 60} Minutes added to Break Time."),
-      action: SnackBarAction(
-        label: 'Undo',
-        onPressed: () {
-          _breakTimeTotal -= _adjustInterval;
-          _saveState();
-        },
-      ),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  void _moveBreakToWorkTime() {
-    if (_breakTimeTotalLive < _adjustInterval &&
-        _breakTimeTotal < _adjustInterval) {
-      _showSimpleSnackBar(
-          "This works when Break Time is greater than ${_adjustInterval ~/ 60} Minutes.",
-          const Duration(seconds: 10));
-      return;
     }
 
-    _workTimeTotal += _adjustInterval;
-    _breakTimeTotal -= _adjustInterval;
+    _working = !_working;
+    _lastToggleTimestamp = nowTimeStamp;
+
     _saveState();
-
-    final snackBar = SnackBar(
-      duration: const Duration(seconds: 10),
-      content: Text(
-          '${_adjustInterval ~/ 60} Minutes moved from Break to Work Time.'),
-      action: SnackBarAction(
-        label: 'Undo',
-        onPressed: () {
-          _workTimeTotal -= _adjustInterval;
-          _breakTimeTotal += _adjustInterval;
-          _saveState();
-        },
-      ),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  void _showSimpleSnackBar(String title, Duration duration) {
-    final snackBar = SnackBar(
-      duration: duration,
-      content: Text(title),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  void _resetTimer() {
-    // save vars for possible undo
-    bool oldWorking = _working;
-    int oldLastToggleTimestamp = _lastToggleTimestamp;
-    int oldWorkTimeTotal = _workTimeTotal;
-    int oldBreakTimeTotal = _breakTimeTotal;
-
-    // reset vars
-    _working = false;
-    _lastToggleTimestamp = 0;
-    _workTimeTotal = 0;
-    _breakTimeTotal = 0;
-    _toggleTimer();
-
-    // show snackBar
-    final snackBar = SnackBar(
-      duration: const Duration(seconds: 10),
-      content: const Text('Timer reset done. Have a nice day 🙂'),
-      action: SnackBarAction(
-        label: 'Undo',
-        onPressed: () {
-          _working = oldWorking;
-          _lastToggleTimestamp = oldLastToggleTimestamp;
-          _workTimeTotal = oldWorkTimeTotal;
-          _breakTimeTotal = oldBreakTimeTotal;
-          _saveState();
-        },
-      ),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
   }
 
   @override
@@ -416,5 +316,120 @@ class _HomeScreenState extends State<HomeScreen> {
         child: _working ? const Icon(Icons.coffee) : const Icon(Icons.work),
       ),
     );
+  }
+
+  void _plusWorkTime() {
+    _workTimeTotal += _adjustInterval;
+    _saveState();
+
+    final snackBar = SnackBar(
+      duration: const Duration(seconds: 10),
+      content: Text("${_adjustInterval ~/ 60} Minutes added to Work Time."),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          _workTimeTotal -= _adjustInterval;
+          _saveState();
+        },
+      ),
+    );
+
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _plusBreakTime() {
+    _breakTimeTotal += _adjustInterval;
+    _saveState();
+
+    final snackBar = SnackBar(
+      duration: const Duration(seconds: 10),
+      content: Text("${_adjustInterval ~/ 60} Minutes added to Break Time."),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          _breakTimeTotal -= _adjustInterval;
+          _saveState();
+        },
+      ),
+    );
+
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _moveBreakToWorkTime() {
+    if (_breakTimeTotalLive < _adjustInterval &&
+        _breakTimeTotal < _adjustInterval) {
+      _showSimpleSnackBar(
+          "This works when Break Time is greater than ${_adjustInterval ~/ 60} Minutes.",
+          const Duration(seconds: 10));
+      return;
+    }
+
+    _workTimeTotal += _adjustInterval;
+    _breakTimeTotal -= _adjustInterval;
+    _saveState();
+
+    final snackBar = SnackBar(
+      duration: const Duration(seconds: 10),
+      content: Text(
+          '${_adjustInterval ~/ 60} Minutes moved from Break to Work Time.'),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          _workTimeTotal -= _adjustInterval;
+          _breakTimeTotal += _adjustInterval;
+          _saveState();
+        },
+      ),
+    );
+
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _showSimpleSnackBar(String title, Duration duration) {
+    final snackBar = SnackBar(
+      duration: duration,
+      content: Text(title),
+    );
+
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _resetTimer() {
+    // save vars for possible undo
+    bool oldWorking = _working;
+    int oldLastToggleTimestamp = _lastToggleTimestamp;
+    int oldWorkTimeTotal = _workTimeTotal;
+    int oldBreakTimeTotal = _breakTimeTotal;
+
+    // reset vars
+    _working = false;
+    _lastToggleTimestamp = 0;
+    _workTimeTotal = 0;
+    _breakTimeTotal = 0;
+    _toggleTimer();
+
+    // show snackBar
+    final snackBar = SnackBar(
+      duration: const Duration(seconds: 10),
+      content: const Text('Timer reset done. Have a nice day 🙂'),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          _working = oldWorking;
+          _lastToggleTimestamp = oldLastToggleTimestamp;
+          _workTimeTotal = oldWorkTimeTotal;
+          _breakTimeTotal = oldBreakTimeTotal;
+          _saveState();
+        },
+      ),
+    );
+
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
