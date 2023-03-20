@@ -20,22 +20,25 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
   @override
   void initState() {
     _weeklyWorkHours =
-        Settings.getValue<double>("weeklyWorkHours", defaultValue: 40)!;
+        Settings.getValue<double>("weeklyWorkHours", defaultValue: 32)!;
     _weeklyWorkDays =
-        Settings.getValue<int>("weeklyWorkDays", defaultValue: 5)!;
+        Settings.getValue<int>("weeklyWorkDays", defaultValue: 4)!;
 
-    saveToSettings();
+    updateDailyWorkTime();
 
     super.initState();
   }
 
-  saveToSettings() {
+  updateDailyWorkTime() {
     double dailyWorkTime =
         calcWeeklyWorkTimeToDailyWorktime(_weeklyWorkHours, _weeklyWorkDays);
 
-    Settings.setValue("dailyWorkTime", dailyWorkTime.toDouble());
-
-    _dailyWorkTime = getDailyWorkTimeString(dailyWorkTime);
+    if (dailyWorkTime > 10) {
+      _dailyWorkTime = "❌👮‍♀️";
+    } else {
+      _dailyWorkTime = getDailyWorkTimeString(dailyWorkTime);
+      Settings.setValue("dailyWorkTime", dailyWorkTime);
+    }
   }
 
   @override
@@ -62,13 +65,15 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
                     35.0: '35 h',
                     32.0: '32 h',
                     30.0: '30 h',
+                    24.0: '24 h',
                     20.0: '20 h',
                   },
                   selected: _weeklyWorkHours,
                   onChange: (value) {
                     setState(() {
                       _weeklyWorkHours = value;
-                      saveToSettings();
+                      updateDailyWorkTime();
+                      Settings.setValue("weeklyWorkHours", _weeklyWorkHours);
                     });
                   },
                 ),
@@ -77,14 +82,19 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
                   title: 'Weekly Work Days',
                   settingKey: 'weeklyWorkDays',
                   values: const <int, String>{
+                    6: '6 Days',
                     5: '5 Days',
                     4: '4 Days',
+                    3: '3 Days',
+                    2: '2 Days',
+                    1: '1 Day',
                   },
-                  selected: _weeklyWorkDays,
+                  selected: _weeklyWorkDays.toInt(),
                   onChange: (value) {
                     setState(() {
                       _weeklyWorkDays = value;
-                      saveToSettings();
+                      updateDailyWorkTime();
+                      Settings.setValue("weeklyWorkDays", _weeklyWorkDays);
                     });
                   },
                 ),
