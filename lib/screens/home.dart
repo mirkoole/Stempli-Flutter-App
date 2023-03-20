@@ -16,13 +16,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // settings
   int _dailyWorkTime = 0;
+  int _adjustInterval = 0;
   bool _showSeconds = true;
   bool _showCountdown = true;
-  int _adjustInterval = 0;
 
-  // internal vars
   Timer? _timer;
-
   bool _working = true;
 
   int _lastToggleTimestamp = 0;
@@ -54,15 +52,20 @@ class _HomeScreenState extends State<HomeScreen> {
   _readState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    _dailyWorkTime =
-        (60 * 60 * Settings.getValue<double>("dailyWorkTime", defaultValue: 8)!)
-            .toInt();
-    _showSeconds = Settings.getValue<bool>("showSeconds", defaultValue: true)!;
-    _showCountdown =
-        Settings.getValue<bool>("showCountdown", defaultValue: true)!;
-    _adjustInterval = prefs.getInt('adjustInterval') ?? 60 * 10;
+    int dwt =
+        Settings.getValue<double>("dailyWorkTime", defaultValue: 8)!.toInt();
 
     setState(() {
+      _showSeconds =
+          Settings.getValue<bool>("showSeconds", defaultValue: true)!;
+
+      _showCountdown =
+          Settings.getValue<bool>("showCountdown", defaultValue: true)!;
+
+      _dailyWorkTime = dwt * 60 * 60;
+
+      _adjustInterval = prefs.getInt('adjustInterval') ?? 60 * 10;
+
       _working = prefs.getBool('working') ?? true;
       _workTimeTotal = prefs.getInt('workTimeTotal') ?? 0;
       _breakTimeTotal = prefs.getInt('breakTimeTotal') ?? 0;
@@ -166,8 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final snackBar = SnackBar(
       duration: const Duration(seconds: 10),
-      content: Text(
-          "${_adjustInterval ~/ 60} Minutes added to Work Time."),
+      content: Text("${_adjustInterval ~/ 60} Minutes added to Work Time."),
       action: SnackBarAction(
         label: 'Undo',
         onPressed: () {
@@ -186,8 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final snackBar = SnackBar(
       duration: const Duration(seconds: 10),
-      content: Text(
-          "${_adjustInterval ~/ 60} Minutes added to Break Time."),
+      content: Text("${_adjustInterval ~/ 60} Minutes added to Break Time."),
       action: SnackBarAction(
         label: 'Undo',
         onPressed: () {
@@ -201,7 +202,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _moveBreakToWorkTime() {
-    if (_breakTimeTotalLive < _adjustInterval && _breakTimeTotal < _adjustInterval) {
+    if (_breakTimeTotalLive < _adjustInterval &&
+        _breakTimeTotal < _adjustInterval) {
       _showSimpleSnackBar(
           "This works when Break Time is greater than ${_adjustInterval ~/ 60} Minutes.",
           const Duration(seconds: 10));
@@ -215,12 +217,13 @@ class _HomeScreenState extends State<HomeScreen> {
     final snackBar = SnackBar(
       duration: const Duration(seconds: 10),
       content: Text(
-          '${_adjustInterval~/60} Minutes moved from Break to Work Time.'),
+          '${_adjustInterval ~/ 60} Minutes moved from Break to Work Time.'),
       action: SnackBarAction(
         label: 'Undo',
         onPressed: () {
           _workTimeTotal -= _adjustInterval;
           _breakTimeTotal += _adjustInterval;
+          _saveState();
         },
       ),
     );
