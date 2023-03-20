@@ -22,9 +22,10 @@ Work Time | Break Time
 
 - toggle timer via notification
 - add locale
+- allow more custom work times
 
 ## Tested Versions
 
-- ✅ [Android](https://github.com/mirkoole/Stempli-Flutter-App/releases/download/v1.2.0/app-release.apk)
+- ✅ [Android](https://github.com/mirkoole/Stempli-Flutter-App/releases/download/v1.2.1/app-release.apk)
 - ✅ iOS
 - ✅ [Web](https://mirkoole.github.io/Stempli-Flutter-App/)
