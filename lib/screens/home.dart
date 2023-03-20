@@ -52,8 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   _readState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    int dwt =
-        Settings.getValue<double>("dailyWorkTime", defaultValue: 8)!.toInt();
+    double dwt = Settings.getValue<double>("dailyWorkTime", defaultValue: 8)!;
 
     setState(() {
       _showSeconds =
@@ -62,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _showCountdown =
           Settings.getValue<bool>("showCountdown", defaultValue: true)!;
 
-      _dailyWorkTime = dwt * 60 * 60;
+      _dailyWorkTime = (dwt * 60 * 60).toInt();
 
       _adjustInterval = prefs.getInt('adjustInterval') ?? 60 * 10;
 
