@@ -265,6 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _lastToggleTimestamp = oldLastToggleTimestamp;
           _workTimeTotal = oldWorkTimeTotal;
           _breakTimeTotal = oldBreakTimeTotal;
+          _saveState();
         },
       ),
     );
