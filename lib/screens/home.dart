@@ -70,9 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
       _breakTimeTotal = prefs.getInt('breakTimeTotal') ?? 0;
       _lastToggleTimestamp = prefs.getInt('lastToggleTimestamp') ?? 0;
     });
-
-    // start timer on first app launch
-    if (_lastToggleTimestamp == 0) _toggleTimer();
   }
 
   _saveState() async {
