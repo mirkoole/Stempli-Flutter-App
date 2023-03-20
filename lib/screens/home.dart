@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _adjustInterval = 10 * 60;
   bool _showSeconds = true;
   bool _showCountdown = true;
+  bool _showProgressbar = true;
 
   Timer? _timer;
   bool _working = false;
@@ -74,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _showSeconds = prefs.getBool('showSeconds') ?? _showSeconds;
     _showCountdown = prefs.getBool('showCountdown') ?? _showCountdown;
+    _showProgressbar = prefs.getBool('showProgressbar') ?? _showProgressbar;
 
     _working = prefs.getBool('working') ?? _working;
 
@@ -231,10 +233,12 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               const Spacer(flex: 3),
-              LinearProgressIndicator(
-                value: _progressBarValue,
-                semanticsLabel: 'Linear progress indicator',
-              ),
+              _showProgressbar
+                  ? LinearProgressIndicator(
+                      value: _progressBarValue,
+                      semanticsLabel: 'Linear progress indicator',
+                    )
+                  : Container(),
               _showCountdown
                   ? GestureDetector(
                       onTap: _toggleTimer,

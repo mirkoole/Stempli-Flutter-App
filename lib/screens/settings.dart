@@ -128,15 +128,21 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
               children: <Widget>[
                 SwitchSettingsTile(
                   defaultValue: true,
-                  settingKey: 'showSeconds',
-                  title: 'Show Seconds',
-                  leading: const Icon(Icons.access_time_filled),
+                  settingKey: 'showProgressbar',
+                  title: 'Show Progressbar',
+                  leading: const Icon(Icons.horizontal_rule),
                 ),
                 SwitchSettingsTile(
                   defaultValue: true,
                   settingKey: 'showCountdown',
                   title: 'Show Countdown',
                   leading: const Icon(Icons.timer),
+                ),
+                SwitchSettingsTile(
+                  defaultValue: true,
+                  settingKey: 'showSeconds',
+                  title: 'Show Seconds',
+                  leading: const Icon(Icons.access_time_filled),
                 ),
                 DropDownSettingsTile(
                     enabled: false,
