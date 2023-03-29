@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:provider/provider.dart';
+import 'package:stempli_flutter/main.dart';
 
 import '../utils/datetime.dart';
 
@@ -128,21 +130,40 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
               children: <Widget>[
                 SwitchSettingsTile(
                   defaultValue: true,
+                  settingKey: 'darkMode',
+                  title: 'Enable Dark Mode',
+                  leading: const Icon(Icons.dark_mode),
+                  onChange: (value) {
+                    context.read<ThemeProvider>().toggle();
+                  },
+                ),
+                ColorPickerSettingsTile(
+                  settingKey: 'colorThemeInt',
+                  title: 'Design Color',
+                  defaultValue: Colors.blue,
+                  leading: const Icon(Icons.color_lens),
+                  onChange: (value) {
+                    debugPrint('key-color-picker: ${value.value}');
+                    context.read<ThemeProvider>().update(value.value);
+                  },
+                ),
+                SwitchSettingsTile(
+                  defaultValue: true,
                   settingKey: 'showProgressbar',
                   title: 'Show Progressbar',
-                  leading: const Icon(Icons.horizontal_rule),
+                  leading: const Icon(Icons.linear_scale),
                 ),
                 SwitchSettingsTile(
                   defaultValue: true,
                   settingKey: 'showCountdown',
                   title: 'Show Countdown',
-                  leading: const Icon(Icons.timer),
+                  leading: const Icon(Icons.alarm),
                 ),
                 SwitchSettingsTile(
                   defaultValue: true,
                   settingKey: 'showSeconds',
                   title: 'Show Seconds',
-                  leading: const Icon(Icons.access_time_filled),
+                  leading: const Icon(Icons.timer_10),
                 ),
                 DropDownSettingsTile(
                     enabled: false,

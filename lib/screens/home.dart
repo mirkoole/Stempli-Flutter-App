@@ -186,7 +186,6 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(
               Icons.work,
-              color: Colors.white,
             ),
             onPressed: _plusWorkTime,
             tooltip: "Add ${_adjustInterval ~/ 60} minutes to Work Time",
@@ -194,7 +193,6 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(
               Icons.coffee,
-              color: Colors.white,
             ),
             onPressed: _plusBreakTime,
             tooltip: "Add ${_adjustInterval ~/ 60} minutes to Break Time",
@@ -202,7 +200,6 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(
               Icons.auto_fix_high,
-              color: Colors.white,
             ),
             onPressed: _moveBreakToWorkTime,
             tooltip:
@@ -211,7 +208,6 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(
               Icons.refresh,
-              color: Colors.white,
             ),
             onPressed: _resetTimer,
             tooltip: "Reset Timer",
@@ -219,7 +215,6 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(
               Icons.settings,
-              color: Colors.white,
             ),
             onPressed: () => {Navigator.pushNamed(context, '/settings')},
             tooltip: "Settings",
@@ -255,7 +250,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             _workCountdownTotalString,
                             style: const TextStyle(
-                              color: Colors.white60,
                               fontWeight: FontWeight.w100,
                               fontSize: 80,
                             ),
@@ -277,7 +271,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       _workTimeTotalString,
                       style: TextStyle(
-                        color: Colors.white60,
                         fontWeight:
                             _working ? FontWeight.w500 : FontWeight.w100,
                         fontSize: 80,
@@ -299,7 +292,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       _breakTimeTotalString,
                       style: TextStyle(
-                        color: Colors.white60,
                         fontWeight:
                             _working ? FontWeight.w100 : FontWeight.w500,
                         fontSize: 80,
@@ -316,7 +308,6 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: _toggleTimer,
         tooltip: 'Toggle Work and Break Timer',
-        foregroundColor: Colors.white,
         child: _working ? const Icon(Icons.coffee) : const Icon(Icons.work),
       ),
     );
