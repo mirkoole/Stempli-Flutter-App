@@ -18,11 +18,12 @@ Work Time | Break Time
 - toggle countdown
 
 
-## ToDo
+## TODO
 
+- set different daily work times
+- toggle dark mode
 - toggle timer via notification
 - add locale
-- allow more custom work times
 
 ## Tested Versions
 
