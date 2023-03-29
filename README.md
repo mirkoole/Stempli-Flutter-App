@@ -16,14 +16,14 @@ Work Time | Break Time
 - define timer adjust interval
 - toggle seconds
 - toggle countdown
-
+- toggle dark mode
+- update design to material 3
 
 ## TODO
 
 - set different daily work times
-- toggle dark mode
-- toggle timer via notification
 - add locale
+- toggle timer via notification
 
 ## Tested Versions
 
