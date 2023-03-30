@@ -31,10 +31,10 @@ class _StempliAppState extends State<StempliApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Stempli App',
+      title: 'Stempli',
       initialRoute: '/',
       routes: {
-        '/': (context) => const HomeScreen(title: 'Stempli App'),
+        '/': (context) => const HomeScreen(title: 'Stempli'),
         '/settings': (context) => const CustomSettingsScreen(title: 'Settings'),
       },
       /*

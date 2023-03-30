@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:provider/provider.dart';
+import 'package:stempli_flutter/utils/config.dart';
 import '../utils/datetime.dart';
 import '../themes/provider.dart';
+
 
 class CustomSettingsScreen extends StatefulWidget {
   const CustomSettingsScreen({super.key, required this.title});
@@ -21,9 +23,9 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
   @override
   void initState() {
     _weeklyWorkHours =
-        Settings.getValue<double>("weeklyWorkHours", defaultValue: 32)!;
+        Settings.getValue<double>("weeklyWorkHours", defaultValue: DEFAULT_WEEKLY_WORK_HOURS)!;
     _weeklyWorkDays =
-        Settings.getValue<int>("weeklyWorkDays", defaultValue: 4)!;
+        Settings.getValue<int>("weeklyWorkDays", defaultValue: DEFAULT_WEEKLY_WORK_DAYS)!;
 
     updateDailyWorkTime();
 
@@ -49,7 +51,7 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
         title: Text(widget.title),
       ),
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
             SettingsGroup(
               title: 'Business Settings',
@@ -128,7 +130,7 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
               title: 'View Settings',
               children: <Widget>[
                 SwitchSettingsTile(
-                  defaultValue: true,
+                  defaultValue: DEFAULT_DARK_MODE,
                   settingKey: 'darkMode',
                   title: 'Enable Dark Mode',
                   leading: const Icon(Icons.dark_mode),
@@ -139,7 +141,7 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
                 ColorPickerSettingsTile(
                   settingKey: 'colorThemeInt',
                   title: 'Design Color',
-                  defaultValue: Colors.blue,
+                  defaultValue: Color(Settings.getValue<int>("colorTheme", defaultValue: DEFAULT_COLOR_THEME.value)!),
                   leading: const Icon(Icons.color_lens),
                   onChange: (value) {
                     debugPrint('key-color-picker: ${value.value}');
@@ -147,19 +149,19 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
                   },
                 ),
                 SwitchSettingsTile(
-                  defaultValue: true,
+                  defaultValue: DEFAULT_SHOW_PROGRESSBAR,
                   settingKey: 'showProgressbar',
                   title: 'Show Progressbar',
                   leading: const Icon(Icons.linear_scale),
                 ),
                 SwitchSettingsTile(
-                  defaultValue: true,
+                  defaultValue: DEFAULT_SHOW_COUNTDOWN,
                   settingKey: 'showCountdown',
                   title: 'Show Countdown',
                   leading: const Icon(Icons.alarm),
                 ),
                 SwitchSettingsTile(
-                  defaultValue: true,
+                  defaultValue: DEFAULT_SHOW_SECONDS,
                   settingKey: 'showSeconds',
                   title: 'Show Seconds',
                   leading: const Icon(Icons.timer_10),
@@ -167,7 +169,7 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
                 DropDownSettingsTile(
                     enabled: false,
                     leading: const Icon(Icons.language),
-                    title: "Language (coming soon)",
+                    title: "Language (soon)",
                     settingKey: "language",
                     selected: "en",
                     values: const <String, String>{
