@@ -230,9 +230,8 @@ class _HomeScreenState extends State<HomeScreen> {
               const Spacer(flex: 3),
               _showProgressbar
                   ? LinearProgressIndicator(
-                      minHeight: 50,
+                      minHeight: 30,
                       value: _progressBarValue,
-                      semanticsLabel: 'Linear progress indicator',
                     )
                   : Container(),
               _showProgressbar ? const Spacer(flex: 1) : Container(),
