@@ -23,7 +23,6 @@ Work Time | Break Time
 
 ## TODO
 
-- make settings screen scrollable
 - fix ios design
 - set different daily work times
 - add locale
