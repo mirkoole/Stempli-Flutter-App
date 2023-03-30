@@ -21,6 +21,8 @@ Work Time | Break Time
 
 ## TODO
 
+- settings screen scrollable
+- ios design headline too big
 - set different daily work times
 - add locale
 - toggle timer via notification

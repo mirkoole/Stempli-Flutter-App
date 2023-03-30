@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:provider/provider.dart';
-import 'package:stempli_flutter/main.dart';
-
 import '../utils/datetime.dart';
+import '../themes/provider.dart';
 
 class CustomSettingsScreen extends StatefulWidget {
   const CustomSettingsScreen({super.key, required this.title});
