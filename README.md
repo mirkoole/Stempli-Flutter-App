@@ -4,9 +4,9 @@ Stempli is an app to track your daily work time and break time easily.
 
 ## Screenshots
 
-Work Time | Break Time
-:-:|:-:
-![Screenshot](screenshots/Screenshot1.jpg) | ![Screenshot](screenshots/Screenshot2.jpg)
+Work Time | Break Time | Settings
+:-:|:-:|:-:
+![Screenshot](screenshots/1.png) | ![Screenshot](screenshots/2.png) | ![Screenshot](screenshots/3.png)
 
 ## Features
 
