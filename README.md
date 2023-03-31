@@ -27,9 +27,9 @@ Work Time | Break Time | Settings
 - set different daily work times
 - add locale
 - toggle timer via notification
+- add wear os compatibility
 
-## Tested Versions
+## Download
 
-- ✅ [Android](https://github.com/mirkoole/Stempli-Flutter-App/releases/download/v1.2.2/app-release.apk)
-- ✅ iOS
+- ✅ [Android APK](https://github.com/mirkoole/Stempli-Flutter-App/releases/download/v1.2.2/app-release.apk) [(via Google Play Store)](https://play.google.com/store/apps/details?id=net.codepunks.stempli)
 - ✅ [Web](https://mirkoole.github.io/Stempli-Flutter-App/)
