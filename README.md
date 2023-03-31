@@ -31,5 +31,5 @@ Work Time | Break Time | Settings
 
 ## Download
 
-- ✅ [Android APK](https://github.com/mirkoole/Stempli-Flutter-App/releases/download/v1.2.2/app-release.apk) [(via Google Play Store)](https://play.google.com/store/apps/details?id=net.codepunks.stempli)
+- ✅ [Android APK](https://github.com/mirkoole/Stempli-Flutter-App/releases/) [(via Google Play Store)](https://play.google.com/store/apps/details?id=net.codepunks.stempli)
 - ✅ [Web](https://mirkoole.github.io/Stempli-Flutter-App/)
