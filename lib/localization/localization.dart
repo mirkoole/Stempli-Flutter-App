@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -6,10 +8,8 @@ class StempliLocalizations {
 
   final Locale locale;
 
-  static StempliLocalizations of(BuildContext context) {
-    return Localizations.of<StempliLocalizations>(
-        context, StempliLocalizations)!;
-  }
+  static StempliLocalizations of(BuildContext context) =>
+      Localizations.of<StempliLocalizations>(context, StempliLocalizations)!;
 
   static const _localizedValues = <String, Map<String, String>>{
     'en': {
@@ -66,13 +66,9 @@ class StempliLocalizations {
 
   static List<String> languages() => _localizedValues.keys.toList();
 
-  String get title {
-    return _localizedValues[locale.languageCode]!['title']!;
-  }
+  String get title => _localizedValues[locale.languageCode]!['title']!;
 
-  String get settings {
-    return _localizedValues[locale.languageCode]!['settings']!;
-  }
+  String get settings => _localizedValues[locale.languageCode]!['settings']!;
 }
 
 class StempliLocalizationsDelegate
@@ -84,10 +80,8 @@ class StempliLocalizationsDelegate
       StempliLocalizations.languages().contains(locale.languageCode);
 
   @override
-  Future<StempliLocalizations> load(Locale locale) {
-    return SynchronousFuture<StempliLocalizations>(
-        StempliLocalizations(locale));
-  }
+  Future<StempliLocalizations> load(Locale locale) =>
+      SynchronousFuture<StempliLocalizations>(StempliLocalizations(locale));
 
   @override
   bool shouldReload(StempliLocalizationsDelegate old) => false;

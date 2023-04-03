@@ -1,13 +1,12 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
-
 import 'package:provider/provider.dart';
-
-import 'themes/provider.dart';
-import 'themes/styles.dart';
-
-import 'screens/home.dart';
-import 'screens/settings.dart';
+import 'package:stempli_flutter/screens/home.dart';
+import 'package:stempli_flutter/screens/settings.dart';
+import 'package:stempli_flutter/themes/provider.dart';
+import 'package:stempli_flutter/themes/styles.dart';
 
 void main() async {
   await Settings.init();
@@ -20,24 +19,19 @@ void main() async {
   );
 }
 
-class StempliApp extends StatefulWidget {
+class StempliApp extends StatelessWidget {
   const StempliApp({super.key});
 
   @override
-  State<StempliApp> createState() => _StempliAppState();
-}
-
-class _StempliAppState extends State<StempliApp> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Stempli',
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const HomeScreen(title: 'Stempli'),
-        '/settings': (context) => const CustomSettingsScreen(title: 'Settings'),
-      },
-      /*
+  Widget build(BuildContext context) => MaterialApp(
+        title: 'Stempli',
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const HomeScreen(title: 'Stempli'),
+          '/settings': (context) =>
+              const CustomSettingsScreen(title: 'Settings'),
+        },
+        /*
       onGenerateTitle: (context) => StempliLocalizations.of(context).title,
       localizationsDelegates: const [
         StempliLocalizationsDelegate(),
@@ -49,8 +43,10 @@ class _StempliAppState extends State<StempliApp> {
         Locale('de', 'DE'),
       ],
       */
-      theme: Styles.themeData(context.watch<ThemeProvider>().darkTheme,
-          context.watch<ThemeProvider>().colorTheme, context),
-    );
-  }
+        theme: getThemeData(
+          context.watch<ThemeProvider>().darkTheme,
+          context.watch<ThemeProvider>().colorTheme,
+          context,
+        ),
+      );
 }

@@ -12,12 +12,12 @@ void main() {
     });
 
     test('getDailyWorkTimeString', () {
-      expect(getDailyWorkTimeString(8.0), "8:00 h");
-      expect(getDailyWorkTimeString(7.0), "7:00 h");
-      expect(getDailyWorkTimeString(6.0), "6:00 h");
+      expect(getDailyWorkTimeString(8), '8:00 h');
+      expect(getDailyWorkTimeString(7), '7:00 h');
+      expect(getDailyWorkTimeString(6), '6:00 h');
 
-      expect(getDailyWorkTimeString(7.6), "7:36 h");
-      expect(getDailyWorkTimeString(7.5), "7:30 h");
+      expect(getDailyWorkTimeString(7.6), '7:36 h');
+      expect(getDailyWorkTimeString(7.5), '7:30 h');
     });
   });
 }
