@@ -63,14 +63,17 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
                 title: 'Business Settings',
                 children: <Widget>[
                   DropDownSettingsTile<double>(
-                    leading: const Icon(Icons.calendar_month),
+                    leading: const Icon(Icons.calendar_today_rounded),
                     title: 'Weekly Work Hours',
                     settingKey: 'weeklyWorkHours',
                     values: <double, String>{
                       40.0: '40 h',
+                      39.5: '39.5 h',
                       39.0: '39 h',
+                      38.5: '38.5 h',
                       38.0: '38 h',
-                      36.0: '36 h',
+                      37.5: '37.5 h',
+                      37.0: '37 h',
                       35.0: '35 h',
                       32.0: '32 h',
                       30.0: '30 h',
