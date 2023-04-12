@@ -41,6 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
   String _workTimeTotalString = ' ';
   String _breakTimeTotalString = ' ';
 
+  bool _allowResetTimer = true;
+
   @override
   void initState() {
     super.initState();
@@ -213,7 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(
               Icons.refresh,
             ),
-            onPressed: _resetTimer,
+            onPressed: _allowResetTimer ? _resetTimer : null,
             tooltip: 'Reset Timer',
           ),
           IconButton(
@@ -412,6 +414,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _resetTimer() async {
+    // disable button for some seconds to avoid double calls
+    _allowResetTimer = false;
+    Timer(const Duration(seconds: 5), () => _allowResetTimer = true);
+
     // save vars for possible undo
     final oldWorking = _working;
     final oldLastToggleTimestamp = _lastToggleTimestamp;
@@ -436,6 +442,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _lastToggleTimestamp = oldLastToggleTimestamp;
           _workTimeTotal = oldWorkTimeTotal;
           _breakTimeTotal = oldBreakTimeTotal;
+          _allowResetTimer = true;
           _saveState();
         },
       ),
