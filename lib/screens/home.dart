@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:stempli_flutter/utils/config.dart';
 import 'package:stempli_flutter/utils/datetime.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,8 +19,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   // default values
-  double _weeklyWorkHours = 40;
-  int _weeklyWorkDays = 5;
+  double _weeklyWorkHours = defaultWeeklyWorkHours;
+  int _weeklyWorkDays = defaultWeeklyWorkDays;
   int _dailyWorkTime = 8 * 60 * 60;
 
   int _adjustInterval = 10 * 60;
