@@ -19461,7 +19461,7 @@ this.b=b},
 afm(a,b,c,d,e,f,g,h){return new A.z2(g,c,e,h,f,b,a,d,null)},
 aiZ(a){return new A.w6(a,null)},
 aj_(a,b){return new A.GO(b,a,null)},
-a3y(a,b,c,d,e){return new A.Ho(d,!0,e,c,b,null)},
+a3y(a,b,c,d,e){return new A.Ho(d,a,e,c,b,null)},
 D1(a,b,c,d,e,f,g,h){return new A.nX(e,d,g,f,b,a,c,null,h.h("nX<0>"))},
 z2:function z2(a,b,c,d,e,f,g,h,i){var _=this
 _.c=a
@@ -64639,7 +64639,7 @@ F(a){var s=null,r=A.kK(s,s,A.U(a).ax.f,s,s,s,s,s,s,s,s,12,s,s,B.bX,s,s,!0,s,s,s,
 B.b.M(p,this.r)
 return A.af7(B.eN,A.a([A.lr(p,B.aO,B.aQ,B.aR)],q))}}
 A.Ho.prototype={
-F(a){return new A.hY(this.c,!0,new A.a3B(this),null,t.Zk)},
+F(a){return new A.hY(this.c,this.d,new A.a3B(this),null,t.Zk)},
 qC(a,b,c){return this.Xk(a,b,c)},
 Xk(a,b,c){var s=0,r=A.Y(t.H),q,p=this,o
 var $async$qC=A.Z(function(d,e){if(d===1)return A.V(e,r)
@@ -65372,7 +65372,7 @@ q=t.N
 p=A.aM([40,"40 h",39.5,"39.5 h",39,"39 h",38.5,"38.5 h",38,"38 h",37.5,"37.5 h",37,"37 h",35,"35 h",32,"32 h",30,"30 h",24,"24 h",20,"20 h"],r,q)
 o=t.S
 n=t.E
-return A.aiQ(s,A.p6(!0,A.ai_(A.a([A.aj_(A.a([A.D1(!0,B.DY,new A.a6r(m),m.d,"weeklyWorkHours","Weekly Work Hours",p,r),A.D1(!0,B.E_,new A.a6s(m),m.e,"weeklyWorkDays","Weekly Work Days",B.II,o),A.D1(!1,B.E5,l,1,"ignoreMe2","Daily Work Time",A.aM([1,m.f],o,q),o),A.D1(!0,B.n2,l,600,"adjustInterval","Adjust Timer Interval",B.IJ,o)],n),"Business Settings"),A.aj_(A.a([A.a3y(!0,B.DW,new A.a6t(a),"darkMode","Enable Dark Mode"),new A.rK("colorThemeInt",new A.h(A.w8("colorTheme",4283215696,o)>>>0),"Design Color",B.DV,new A.a6u(a),l),A.a3y(!0,B.E4,l,"showProgressbar","Show Progressbar"),A.a3y(!0,B.DZ,l,"showCountdown","Show Countdown"),A.a3y(!0,B.DX,l,"showSeconds","Show Seconds"),A.D1(!1,B.DU,l,"en","language","Language (soon)",B.IF,q)],n),"View Settings")],n),l,l,!1),B.a4,!0),l)}}
+return A.aiQ(s,A.p6(!0,A.ai_(A.a([A.aj_(A.a([A.D1(!0,B.DY,new A.a6r(m),m.d,"weeklyWorkHours","Weekly Work Hours",p,r),A.D1(!0,B.E_,new A.a6s(m),m.e,"weeklyWorkDays","Weekly Work Days",B.II,o),A.D1(!1,B.E5,l,1,"ignoreMe2","Daily Work Time",A.aM([1,m.f],o,q),o),A.D1(!0,B.n2,l,600,"adjustInterval","Adjust Timer Interval",B.IJ,o)],n),"Business Settings"),A.aj_(A.a([A.a3y(!0,B.DW,new A.a6t(a),"darkMode","Enable Dark Mode"),new A.rK("colorThemeInt",new A.h(A.w8("colorTheme",4283215696,o)>>>0),"Design Color",B.DV,new A.a6u(a),l),A.a3y(!0,B.E4,l,"showProgressbar","Show Progressbar"),A.a3y(!1,B.DZ,l,"showCountdown","Show Countdown"),A.a3y(!0,B.DX,l,"showSeconds","Show Seconds"),A.D1(!1,B.DU,l,"en","language","Language (soon)",B.IF,q)],n),"View Settings")],n),l,l,!1),B.a4,!0),l)}}
 A.a6r.prototype={
 $1(a){return this.LS(a)},
 LS(a){var s=0,r=A.Y(t.H),q=this,p
