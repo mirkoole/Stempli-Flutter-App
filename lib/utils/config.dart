@@ -8,4 +8,4 @@ const defaultWeeklyWorkDays = 4;
 const defaultDarkMode = true;
 const defaultShowSeconds = true;
 const defaultShowProgressbar = true;
-const defaultShowCountdown = true;
+const defaultShowCountdown = false;
