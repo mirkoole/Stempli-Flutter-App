@@ -135,7 +135,7 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
                       60 * 5: '5 Minutes',
                       60 * 10: '10 Minutes',
                     },
-                    selected: 60 * 10,
+                    selected: defaultAdjustInterval,
                   ),
                 ],
               ),
