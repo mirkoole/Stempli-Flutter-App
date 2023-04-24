@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 const defaultColorTheme = Colors.green;
 const defaultWeeklyWorkHours = 24.0;
 const defaultWeeklyWorkDays = 4;
+const defaultAdjustInterval = 60 * 10;
 const defaultDarkMode = true;
 const defaultShowSeconds = true;
 const defaultShowProgressbar = true;

@@ -23,10 +23,10 @@ class _HomeScreenState extends State<HomeScreen> {
   int _weeklyWorkDays = defaultWeeklyWorkDays;
   int _dailyWorkTime = 8 * 60 * 60;
 
-  int _adjustInterval = 10 * 60;
-  bool _showSeconds = true;
-  bool _showCountdown = true;
-  bool _showProgressbar = true;
+  int _adjustInterval = defaultAdjustInterval;
+  bool _showSeconds = defaultShowSeconds;
+  bool _showCountdown = defaultShowCountdown;
+  bool _showProgressbar = defaultShowProgressbar;
 
   Timer? _timer;
   bool _working = false;
