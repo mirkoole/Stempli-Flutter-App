@@ -175,6 +175,7 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
                     leading: const Icon(Icons.linear_scale),
                   ),
                   SwitchSettingsTile(
+                    // ignore: avoid_redundant_argument_values
                     defaultValue: defaultShowCountdown,
                     settingKey: 'showCountdown',
                     title: 'Show Countdown',
