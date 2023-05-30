@@ -3,10 +3,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stempli_flutter/main.dart';
 
 import 'package:stempli_flutter/utils/config.dart';
-import 'package:stempli_flutter/utils/datetime.dart';
+
+import '../utils/datetime.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({required this.title, super.key});
@@ -18,15 +19,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // default values
-  double _weeklyWorkHours = defaultWeeklyWorkHours;
-  int _weeklyWorkDays = defaultWeeklyWorkDays;
-  int _dailyWorkTime = 8 * 60 * 60;
-
-  int _adjustInterval = defaultAdjustInterval;
-  bool _showSeconds = defaultShowSeconds;
-  bool _showCountdown = defaultShowCountdown;
-  bool _showProgressbar = defaultShowProgressbar;
+  int _dailyWorkTime =
+      sharedPreferences.getInt('dailyWorkTime') ?? defaultDailyWorkTime;
+  int _adjustInterval =
+      sharedPreferences.getInt('adjustInterval') ?? defaultAdjustInterval;
+  bool _showSeconds =
+      sharedPreferences.getBool('showSeconds') ?? defaultShowSeconds;
+  bool _showCountdown =
+      sharedPreferences.getBool('showCountdown') ?? defaultShowCountdown;
+  bool _showProgressbar =
+      sharedPreferences.getBool('showProgressbar') ?? defaultShowProgressbar;
 
   Timer? _timer;
   bool _working = false;
@@ -46,8 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    super.initState();
-
     unawaited(_readState());
 
     // show timer instantly on app launch
@@ -57,6 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // call display timer every second to update view
     _timer = Timer.periodic(const Duration(seconds: 1), _displayTimer);
+
+    super.initState();
   }
 
   @override
@@ -65,45 +67,53 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  Future<void> _readState() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    _weeklyWorkHours = prefs.getDouble('weeklyWorkHours') ?? _weeklyWorkHours;
-    _weeklyWorkDays = prefs.getInt('weeklyWorkDays') ?? _weeklyWorkDays;
-    _dailyWorkTime =
-        (calcWeeklyWorkTimeToDailyWorktime(_weeklyWorkHours, _weeklyWorkDays) *
-                60 *
-                60)
-            .toInt();
-
-    _adjustInterval = prefs.getInt('adjustInterval') ?? _adjustInterval;
-
-    _showSeconds = prefs.getBool('showSeconds') ?? _showSeconds;
-    _showCountdown = prefs.getBool('showCountdown') ?? _showCountdown;
-    _showProgressbar = prefs.getBool('showProgressbar') ?? _showProgressbar;
-
-    _working = prefs.getBool('working') ?? _working;
-
+  _readState() {
+    // calc
+    _working = sharedPreferences.getBool('working') ?? _working;
     _lastToggleTimestamp =
-        prefs.getInt('lastToggleTimestamp') ?? _lastToggleTimestamp;
+        sharedPreferences.getInt('lastToggleTimestamp') ?? _lastToggleTimestamp;
+    _workTimeTotal =
+        sharedPreferences.getInt('workTimeTotal') ?? _workTimeTotal;
+    _breakTimeTotal =
+        sharedPreferences.getInt('breakTimeTotal') ?? _breakTimeTotal;
 
-    _workTimeTotal = prefs.getInt('workTimeTotal') ?? _workTimeTotal;
-    _breakTimeTotal = prefs.getInt('breakTimeTotal') ?? _breakTimeTotal;
+    // timer settings
+    var customDailyWorkTime =
+        sharedPreferences.getBool("customDailyWorkTimes") ??
+            defaultCustomDailyWorkTimes;
+    if (customDailyWorkTime) {
+      var dayOfWeek = getDayOfWeek();
+
+      _dailyWorkTime = sharedPreferences.getInt('dailyWorkTime$dayOfWeek') ??
+          defaultDailyWorkTime;
+    } else {
+      _dailyWorkTime =
+          sharedPreferences.getInt('dailyWorkTime') ?? defaultDailyWorkTime;
+    }
+
+    _adjustInterval =
+        sharedPreferences.getInt('adjustInterval') ?? defaultAdjustInterval;
+
+    // UI Changes
+    _showSeconds =
+        sharedPreferences.getBool('showSeconds') ?? defaultShowSeconds;
+    _showCountdown =
+        sharedPreferences.getBool('showCountdown') ?? defaultShowCountdown;
+    _showProgressbar =
+        sharedPreferences.getBool('showProgressbar') ?? defaultShowProgressbar;
 
     setState(() {});
   }
 
-  Future<void> _saveState() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    await prefs.setBool('working', _working);
-    await prefs.setInt('workTimeTotal', _workTimeTotal);
-    await prefs.setInt('breakTimeTotal', _breakTimeTotal);
-    await prefs.setInt('lastToggleTimestamp', _lastToggleTimestamp);
+  _saveState() {
+    sharedPreferences.setBool('working', _working);
+    sharedPreferences.setInt('workTimeTotal', _workTimeTotal);
+    sharedPreferences.setInt('breakTimeTotal', _breakTimeTotal);
+    sharedPreferences.setInt('lastToggleTimestamp', _lastToggleTimestamp);
   }
 
   Future<void> _displayTimer(Timer? timer) async {
-    await _readState();
+    _readState();
 
     if (_lastToggleTimestamp == 0) {
       await _toggleTimer();
@@ -195,14 +205,14 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.work,
             ),
             onPressed: _plusWorkTime,
-            tooltip: 'Add $adjustIntervalMin minutes to Work Time',
+            tooltip: 'Add $adjustIntervalMin minutes to Worktime',
           ),
           IconButton(
             icon: const Icon(
               Icons.coffee,
             ),
             onPressed: _plusBreakTime,
-            tooltip: 'Add ${_adjustInterval ~/ 60} minutes to Break Time',
+            tooltip: 'Add ${_adjustInterval ~/ 60} minutes to Breaktime',
           ),
           IconButton(
             icon: const Icon(
@@ -210,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             onPressed: _moveBreakToWorkTime,
             tooltip:
-                'Move ${_adjustInterval ~/ 60} minutes from Break to Work Time',
+                'Move ${_adjustInterval ~/ 60} minutes from Break to Worktime',
           ),
           IconButton(
             icon: const Icon(
@@ -223,7 +233,10 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(
               Icons.settings,
             ),
-            onPressed: () async => {Navigator.pushNamed(context, '/settings')},
+            onPressed: () async => {
+              Navigator.pushNamed(context, '/settings')
+                  .then((_) => setState(() {}))
+            },
             tooltip: 'Settings',
           )
         ],
@@ -235,9 +248,14 @@ class _HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               const Spacer(flex: 3),
               if (_showProgressbar)
-                LinearProgressIndicator(
-                  minHeight: 30,
-                  value: _progressBarValue,
+                GestureDetector(
+                  onPanUpdate: (d) async {
+                    if (d.delta.dx > 0) await _resetTimer();
+                  },
+                  child: LinearProgressIndicator(
+                    minHeight: 30,
+                    value: _progressBarValue,
+                  ),
                 )
               else
                 Container(),
@@ -270,11 +288,11 @@ class _HomeScreenState extends State<HomeScreen> {
               const Spacer(),
               GestureDetector(
                 onTap: _toggleTimer,
-                onLongPress: _resetTimer,
+                onLongPress: _moveOverTime,
                 child: Column(
                   children: [
                     Text(
-                      '💼 Work Time',
+                      '💼 Worktime',
                       style: Theme.of(context).textTheme.headlineLarge,
                     ),
                     Text(
@@ -295,7 +313,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: [
                     Text(
-                      '☕️ Break Time ',
+                      '☕️ Breaktime ',
                       style: Theme.of(context).textTheme.headlineLarge,
                     ),
                     Text(
@@ -316,7 +334,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _toggleTimer,
-        tooltip: 'Toggle Work and Break Timer',
+        tooltip: 'Toggle Work and Breaktimer',
         child: _working ? const Icon(Icons.coffee) : const Icon(Icons.work),
       ),
     );
@@ -328,7 +346,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final snackBar = SnackBar(
       duration: const Duration(seconds: 10),
-      content: Text('${_adjustInterval ~/ 60} Minutes added to Work Time.'),
+      content: Text('${_adjustInterval ~/ 60} Minutes added to Worktime.'),
       action: SnackBarAction(
         label: 'Undo',
         onPressed: () {
@@ -350,7 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final snackBar = SnackBar(
       duration: const Duration(seconds: 10),
-      content: Text('${_adjustInterval ~/ 60} Minutes added to Break Time.'),
+      content: Text('${_adjustInterval ~/ 60} Minutes added to Breaktime.'),
       action: SnackBarAction(
         label: 'Undo',
         onPressed: () {
@@ -373,7 +391,7 @@ class _HomeScreenState extends State<HomeScreen> {
         _breakTimeTotal < _adjustInterval) {
       _showSimpleSnackBar(
         // ignore: lines_longer_than_80_chars
-        'This works when Break Time is greater than $adjustIntervalMin Minutes.',
+        'This works when Breaktime is greater than $adjustIntervalMin Minutes.',
         const Duration(seconds: 10),
       );
       return;
@@ -386,7 +404,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final snackBar = SnackBar(
       duration: const Duration(seconds: 10),
       content: Text(
-        '${_adjustInterval ~/ 60} Minutes moved from Break to Work Time.',
+        '${_adjustInterval ~/ 60} Minutes moved from Break to Worktime.',
       ),
       action: SnackBarAction(
         label: 'Undo',
@@ -414,7 +432,24 @@ class _HomeScreenState extends State<HomeScreen> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  Future<void> _resetTimer() async {
+  Future<void> _moveOverTime() async {
+    if (_working) {
+      _toggleTimer();
+    }
+
+    final overTime = _workTimeTotal - _dailyWorkTime;
+
+    if (overTime > 0) {
+      _resetTimer(showSnackbar: false);
+      _workTimeTotal += overTime;
+      _showSimpleSnackBar("💼 Timer reset and overtime moved to today!",
+          const Duration(seconds: 10));
+    } else {
+      _resetTimer();
+    }
+  }
+
+  Future<void> _resetTimer({bool showSnackbar = true}) async {
     // disable button for some seconds to avoid double calls
     _allowResetTimer = false;
     Timer(const Duration(seconds: 5), () => _allowResetTimer = true);
@@ -449,7 +484,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
 
-    if (context.mounted) {
+    if (context.mounted && showSnackbar == true) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }

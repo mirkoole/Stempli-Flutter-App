@@ -2,11 +2,15 @@
 
 import 'package:flutter/material.dart';
 
+const defaultAdjustInterval = 10 * 60; // seconds
 const defaultColorTheme = Colors.green;
-const defaultWeeklyWorkHours = 24.0;
-const defaultWeeklyWorkDays = 4;
-const defaultAdjustInterval = 60 * 10;
+const defaultCustomDailyWorkTimes = false;
+const defaultDailyWorkTime = 8 * 60 * 60; // seconds
 const defaultDarkMode = true;
-const defaultShowSeconds = true;
-const defaultShowProgressbar = true;
+const defaultLanguage = 'en';
 const defaultShowCountdown = false;
+const defaultShowProgressbar = true;
+const defaultShowSeconds = true;
+
+const appVersion = '1.4.0';
+const buildVersion = '14';

@@ -1,15 +1,28 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:flutter/material.dart';
-import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stempli_flutter/screens/home.dart';
 import 'package:stempli_flutter/screens/settings.dart';
+import 'package:stempli_flutter/screens/settings/language.dart';
+import 'package:stempli_flutter/screens/settings/time.dart';
 import 'package:stempli_flutter/themes/provider.dart';
 import 'package:stempli_flutter/themes/styles.dart';
 
+import 'utils/config.dart';
+
+late SharedPreferences sharedPreferences;
+
 void main() async {
-  await Settings.init();
+  WidgetsFlutterBinding.ensureInitialized();
+  sharedPreferences = await SharedPreferences.getInstance();
+
+  if (sharedPreferences.getString("buildVersion") == null) {
+    sharedPreferences.clear();
+    sharedPreferences.setString("buildVersion", buildVersion);
+  }
 
   runApp(
     ChangeNotifierProvider(
@@ -30,6 +43,10 @@ class StempliApp extends StatelessWidget {
           '/': (context) => const HomeScreen(title: 'Stempli'),
           '/settings': (context) =>
               const CustomSettingsScreen(title: 'Settings'),
+          '/settings/language': (context) =>
+              const CustomSettingsLanguageScreen(title: 'Language'),
+          '/settings/time': (context) =>
+              const CustomSettingsTimeScreen(title: 'Daily Work Time'),
         },
         /*
       onGenerateTitle: (context) => StempliLocalizations.of(context).title,

@@ -1,13 +1,15 @@
 // ignore_for_file: public_member_api_docs, diagnostic_describe_all_properties
 
-import 'dart:async';
-
+import 'package:duration_picker/duration_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:provider/provider.dart';
+import 'package:settings_ui/settings_ui.dart';
+
+import 'package:stempli_flutter/main.dart';
 import 'package:stempli_flutter/themes/provider.dart';
 import 'package:stempli_flutter/utils/config.dart';
 import 'package:stempli_flutter/utils/datetime.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CustomSettingsScreen extends StatefulWidget {
   const CustomSettingsScreen({required this.title, super.key});
@@ -19,189 +21,187 @@ class CustomSettingsScreen extends StatefulWidget {
 }
 
 class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
-  double _weeklyWorkHours = 0;
-  int _weeklyWorkDays = 0;
-  String _dailyWorkTime = '...';
+  get year => DateTime.now().year;
+
+  final int _dailyWorkTime =
+      sharedPreferences.getInt("dailyWorkTime") ?? defaultDailyWorkTime;
+
+  int _adjustInterval =
+      sharedPreferences.getInt("adjustInterval") ?? defaultAdjustInterval;
+
+  bool _darkMode = sharedPreferences.getBool("darkMode") ?? defaultDarkMode;
+  bool _showSeconds =
+      sharedPreferences.getBool("showSeconds") ?? defaultShowSeconds;
+  bool _showProgressbar =
+      sharedPreferences.getBool("showProgressbar") ?? defaultShowProgressbar;
+  bool _showCountdown =
+      sharedPreferences.getBool("showCountdown") ?? defaultShowCountdown;
+  final bool _customDailyWorkTimes =
+      sharedPreferences.getBool("customDailyWorkTimes") ??
+          defaultCustomDailyWorkTimes;
 
   @override
-  void initState() {
-    _weeklyWorkHours = Settings.getValue<double>(
-      'weeklyWorkHours',
-      defaultValue: defaultWeeklyWorkHours,
-    )!;
-    _weeklyWorkDays = Settings.getValue<int>(
-      'weeklyWorkDays',
-      defaultValue: defaultWeeklyWorkDays,
-    )!;
+  Widget build(BuildContext context) {
 
-    unawaited(updateDailyWorkTime());
-
-    super.initState();
-  }
-
-  Future<void> updateDailyWorkTime() async {
-    final dailyWorkTime =
-        calcWeeklyWorkTimeToDailyWorktime(_weeklyWorkHours, _weeklyWorkDays);
-
-    if (dailyWorkTime > 10) {
-      _dailyWorkTime = '❌👮‍♀️';
-    } else {
-      _dailyWorkTime = getDailyWorkTimeString(dailyWorkTime);
-      await Settings.setValue('dailyWorkTime', dailyWorkTime);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: SafeArea(
-          child: ListView(
-            children: [
-              SettingsGroup(
-                title: 'Business Settings',
-                children: <Widget>[
-                  DropDownSettingsTile<double>(
-                    leading: const Icon(Icons.calendar_today_rounded),
-                    title: 'Weekly Work Hours',
-                    settingKey: 'weeklyWorkHours',
-                    values: <double, String>{
-                      40.0: '40 h',
-                      39.5: '39.5 h',
-                      39.0: '39 h',
-                      38.5: '38.5 h',
-                      38.0: '38 h',
-                      37.5: '37.5 h',
-                      37.0: '37 h',
-                      35.0: '35 h',
-                      32.0: '32 h',
-                      30.0: '30 h',
-                      24.0: '24 h',
-                      20.0: '20 h',
-                    },
-                    selected: _weeklyWorkHours,
-                    onChange: (value) async {
-                      _weeklyWorkHours = value;
-                      await updateDailyWorkTime();
-                      await Settings.setValue(
-                        'weeklyWorkHours',
-                        _weeklyWorkHours,
-                      );
-                      setState(() {});
-                    },
-                  ),
-                  DropDownSettingsTile<int>(
-                    leading: const Icon(Icons.calendar_month),
-                    title: 'Weekly Work Days',
-                    settingKey: 'weeklyWorkDays',
-                    values: const <int, String>{
-                      6: '6 Days',
-                      5: '5 Days',
-                      4: '4 Days',
-                      3: '3 Days',
-                      2: '2 Days',
-                      1: '1 Day',
-                    },
-                    selected: _weeklyWorkDays,
-                    onChange: (value) async {
-                      _weeklyWorkDays = value;
-                      await updateDailyWorkTime();
-                      await Settings.setValue(
-                        'weeklyWorkDays',
-                        _weeklyWorkDays,
-                      );
-                      setState(() {});
-                    },
-                  ),
-                  DropDownSettingsTile<int>(
-                    leading: const Icon(Icons.timer),
-                    title: 'Daily Work Time',
-                    settingKey: 'ignoreMe2',
-                    enabled: false,
-                    values: <int, String>{
-                      1: _dailyWorkTime,
-                    },
-                    selected: 1,
-                  ),
-                  DropDownSettingsTile<int>(
-                    leading: const Icon(Icons.auto_fix_high),
-                    title: 'Adjust Timer Interval',
-                    settingKey: 'adjustInterval',
-                    values: const <int, String>{
-                      60 * 1: '1 Minute',
-                      60 * 2: '2 Minutes',
-                      60 * 3: '3 Minutes',
-                      60 * 5: '5 Minutes',
-                      60 * 10: '10 Minutes',
-                    },
-                    selected: defaultAdjustInterval,
-                  ),
-                ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: SettingsList(
+        sections: [
+          SettingsSection(
+            title: const Text("App Settings"),
+            tiles: <SettingsTile>[
+              SettingsTile.navigation(
+                leading: const Icon(Icons.language),
+                title: const Text("Language"),
+                onPressed: (context) async =>
+                    {Navigator.pushNamed(context, '/settings/language')},
               ),
-              SettingsGroup(
-                title: 'View Settings',
-                children: <Widget>[
-                  SwitchSettingsTile(
-                    defaultValue: defaultDarkMode,
-                    settingKey: 'darkMode',
-                    title: 'Enable Dark Mode',
-                    leading: const Icon(Icons.dark_mode),
-                    onChange: (value) async {
-                      await context.read<ThemeProvider>().toggle();
-                    },
-                  ),
-                  ColorPickerSettingsTile(
-                    settingKey: 'colorThemeInt',
-                    title: 'Design Color',
-                    defaultValue: Color(
-                      Settings.getValue<int>(
-                        'colorTheme',
-                        defaultValue: defaultColorTheme.value,
-                      )!,
+              SettingsTile.switchTile(
+                leading: const Icon(Icons.dark_mode),
+                onToggle: (bool value) {
+                  context.read<ThemeProvider>().toggle();
+                  setState(() {
+                    _darkMode = !_darkMode;
+                  });
+                },
+                initialValue: _darkMode,
+                title: const Text('Enable Dark Mode'),
+              ),
+              SettingsTile(
+                leading: const Icon(Icons.color_lens),
+                title: const Text("App Color"),
+                onPressed: (context) async {
+                  await context.read<ThemeProvider>().toggleColorThemes();
+                  setState(() {});
+                },
+                trailing: Text(
+                    style: TextStyle(
+                      backgroundColor:
+                          Color(context.read<ThemeProvider>().colorTheme),
+                      color: Color(context.read<ThemeProvider>().colorTheme),
                     ),
-                    leading: const Icon(Icons.color_lens),
-                    onChange: (value) async {
-                      debugPrint('key-color-picker: ${value.value}');
-                      await context
-                          .read<ThemeProvider>()
-                          .setColorTheme(value.value);
-                    },
-                  ),
-                  SwitchSettingsTile(
-                    defaultValue: defaultShowProgressbar,
-                    settingKey: 'showProgressbar',
-                    title: 'Show Progressbar',
-                    leading: const Icon(Icons.linear_scale),
-                  ),
-                  SwitchSettingsTile(
-                    // ignore: avoid_redundant_argument_values
-                    defaultValue: defaultShowCountdown,
-                    settingKey: 'showCountdown',
-                    title: 'Show Countdown',
-                    leading: const Icon(Icons.alarm),
-                  ),
-                  SwitchSettingsTile(
-                    defaultValue: defaultShowSeconds,
-                    settingKey: 'showSeconds',
-                    title: 'Show Seconds',
-                    leading: const Icon(Icons.timer_10),
-                  ),
-                  DropDownSettingsTile(
-                    enabled: false,
-                    leading: const Icon(Icons.language),
-                    title: 'Language (soon)',
-                    settingKey: 'language',
-                    selected: 'en',
-                    values: const <String, String>{
-                      'de': '🇩🇪  Deutsch',
-                      'en': '🇬🇧  English'
-                    },
-                  )
-                ],
+                    " cp "),
               ),
             ],
           ),
-        ),
-      );
+          SettingsSection(
+            title: const Text("Time Settings"),
+            tiles: <SettingsTile>[
+              SettingsTile.navigation(
+                leading: const Icon(Icons.timer),
+                title: const Text("Daily Work Time"),
+                trailing: _customDailyWorkTimes
+                    ? const Text('custom')
+                    : Text(getDailyWorkTimeString(_dailyWorkTime)),
+                onPressed: (context) async => {
+                  Navigator.pushNamed(context, '/settings/time')
+                      .then((_) => setState(() {}))
+                },
+              ),
+              SettingsTile(
+                leading: const Icon(Icons.auto_fix_high),
+                title: const Text("Adjust Timer Interval"),
+                trailing: Text(getAdjustIntervalMinute(_adjustInterval)),
+                onPressed: (context) async {
+                  var resultingDuration = await showDurationPicker(
+                    context: context,
+                    initialTime: Duration(seconds: _adjustInterval),
+                    baseUnit: BaseUnit.minute,
+                  );
+
+                  if (resultingDuration != null) {
+                    int adjustInterval =
+                        convertDurationToSeconds(resultingDuration);
+
+                    if (adjustInterval > 60 * 60 * 1) {
+                      const snackBar = SnackBar(
+                        duration: Duration(seconds: 10),
+                        content: Text('Sorry, max. 1 hour interval possible.'),
+                      );
+
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    } else {
+                      sharedPreferences.setInt(
+                          "adjustInterval", adjustInterval);
+
+                      setState(() {
+                        _adjustInterval = adjustInterval;
+                      });
+                    }
+                  }
+                },
+              ),
+              SettingsTile.switchTile(
+                leading: const Icon(Icons.timer),
+                onToggle: (bool value) {
+                  setState(() {
+                    _showProgressbar = !_showProgressbar;
+                  });
+                  sharedPreferences.setBool(
+                      "showProgressbar", _showProgressbar);
+                },
+                initialValue: _showProgressbar,
+                title: const Text('Show Progressbar'),
+              ),
+              SettingsTile.switchTile(
+                leading: const Icon(Icons.timer),
+                onToggle: (bool value) {
+                  setState(() {
+                    _showCountdown = !_showCountdown;
+                  });
+                  sharedPreferences.setBool("showCountdown", _showCountdown);
+                },
+                initialValue: _showCountdown,
+                title: const Text('Show Countdown'),
+              ),
+              SettingsTile.switchTile(
+                leading: const Icon(Icons.timer),
+                onToggle: (bool value) {
+                  setState(() {
+                    _showSeconds = !_showSeconds;
+                  });
+                  sharedPreferences.setBool("showSeconds", _showSeconds);
+                },
+                initialValue: _showSeconds,
+                title: const Text('Show Seconds'),
+              ),
+            ],
+          ),
+          SettingsSection(
+            title: const Text("About"),
+            tiles: [
+              SettingsTile(
+                leading: const Icon(Icons.code),
+                title: const Text("App Version"),
+                trailing: const Text('$appVersion ($buildVersion)'),
+                onPressed: (context) => {
+                  launchUrl(Uri.parse(
+                      "https://github.com/mirkoole/Stempli-Flutter-App/"))
+                },
+              ),
+              SettingsTile(
+                leading: const Icon(Icons.email),
+                title: const Text("E-Mail"),
+                trailing: const Text("mirko@codepunks.net"),
+                onPressed: (context) =>
+                    {launchUrl(Uri.parse("https://www.codepunks.net"))},
+              ),
+              SettingsTile(
+                leading: const Icon(Icons.copyright),
+                title: Text("$year Mirko Oleszuk"),
+                trailing: const Text("codepunks.net"),
+                onPressed: (context) =>
+                    {launchUrl(Uri.parse("https://www.codepunks.net"))},
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
 }
