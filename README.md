@@ -6,31 +6,36 @@ Stempli is an app to track your daily work time and break time easily.
 
 Work Time | Break Time | Settings
 :-:|:-:|:-:
-![Screenshot](screenshots/1.png) | ![Screenshot](screenshots/2.png) | ![Screenshot](screenshots/3.png)
+![Screenshot](screenshots/1.png) | ![Screenshot](screenshots/2.png)
+| ![Screenshot](screenshots/3.png)
 
 ## Features
 
 - track work + break time
-- magic button to adjust both
-- set custom daily work time
+- magic buttons to adjust both
+- works always offline
+- no data sharing with anyone
+- set custom daily work times
 - set custom timer adjust interval
 - toggle display seconds
 - toggle display countdown
 - toggle dark mode
 - material 3 design
-- works always offline
-- no data sharing
+
+## Last Changes
+
+- add duration picker on settings page
+- add toggle for different daily worktimes
+- Refactoring Settings Menu
 
 ## TODO
 
-- fix ios design
-- set different daily work times
 - add locale
 - toggle timer via notification
 - add wear os compatibility
 
 ## Download
 
-- [Android-App APK](https://github.com/mirkoole/Stempli-Flutter-App/releases/) 
+- [Android-App APK](https://github.com/mirkoole/Stempli-Flutter-App/releases/)
 - [Android-App via Google Play Store](https://play.google.com/store/apps/details?id=net.codepunks.stempli)
 - or [Open Web-App](https://mirkoole.github.io/Stempli-Flutter-App/)
