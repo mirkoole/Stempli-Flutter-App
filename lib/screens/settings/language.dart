@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, diagnostic_describe_all_properties
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:settings_ui/settings_ui.dart';
@@ -32,11 +33,12 @@ class _CustomSettingsLanguageScreenState
       body: SettingsList(
         sections: [
           SettingsSection(
-            title: const Text("Language"),
+            title: const Text("Select your language."),
             tiles: <SettingsTile>[
               SettingsTile(
                 leading: const Icon(Icons.language),
                 title: const Text('English'),
+                description: kIsWeb ? const Text('✅') : null,
                 trailing: _language == 'en' ? const Icon(Icons.check) : null,
                 onPressed: (context) {
                   sharedPreferences.setString("language", "en");
@@ -46,7 +48,8 @@ class _CustomSettingsLanguageScreenState
               SettingsTile(
                 enabled: false,
                 leading: const Icon(Icons.language),
-                title: const Text('Deutsch (bald verfügbar)'),
+                title: const Text('Deutsch'),
+                description: const Text('bald verfügbar'),
                 trailing: _language == 'de' ? const Icon(Icons.check) : null,
                 onPressed: (context) {
                   sharedPreferences.setString("language", "de");
@@ -57,6 +60,7 @@ class _CustomSettingsLanguageScreenState
                 enabled: false,
                 leading: const Icon(Icons.language),
                 title: const Text('Español'),
+                description: const Text('coming soon'),
                 trailing: _language == 'es' ? const Icon(Icons.check) : null,
                 onPressed: (context) {
                   sharedPreferences.setString("language", "es");
@@ -67,6 +71,7 @@ class _CustomSettingsLanguageScreenState
                 enabled: false,
                 leading: const Icon(Icons.language),
                 title: const Text('Français'),
+                description: const Text('coming soon'),
                 trailing: _language == 'fr' ? const Icon(Icons.check) : null,
                 onPressed: (context) {
                   sharedPreferences.setString("language", "fr");

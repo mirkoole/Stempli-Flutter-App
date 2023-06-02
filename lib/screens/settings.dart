@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, diagnostic_describe_all_properties
 
 import 'package:duration_picker/duration_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:settings_ui/settings_ui.dart';
@@ -42,7 +43,6 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -50,11 +50,13 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
       body: SettingsList(
         sections: [
           SettingsSection(
-            title: const Text("App Settings"),
+            title: const Text("General"),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
                 leading: const Icon(Icons.language),
                 title: const Text("Language"),
+                description: kIsWeb ? const Text("English") : null,
+                trailing: const Text("English"),
                 onPressed: (context) async =>
                     {Navigator.pushNamed(context, '/settings/language')},
               ),
@@ -76,6 +78,16 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
                   await context.read<ThemeProvider>().toggleColorThemes();
                   setState(() {});
                 },
+                description: kIsWeb
+                    ? Text(
+                        style: TextStyle(
+                          backgroundColor:
+                              Color(context.read<ThemeProvider>().colorTheme),
+                          color:
+                              Color(context.read<ThemeProvider>().colorTheme),
+                        ),
+                        " cp ")
+                    : null,
                 trailing: Text(
                     style: TextStyle(
                       backgroundColor:
@@ -87,11 +99,16 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
             ],
           ),
           SettingsSection(
-            title: const Text("Time Settings"),
+            title: const Text("Time"),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
                 leading: const Icon(Icons.timer),
                 title: const Text("Daily Work Time"),
+                description: kIsWeb
+                    ? _customDailyWorkTimes
+                        ? const Text('custom')
+                        : Text(getDailyWorkTimeString(_dailyWorkTime))
+                    : null,
                 trailing: _customDailyWorkTimes
                     ? const Text('custom')
                     : Text(getDailyWorkTimeString(_dailyWorkTime)),
@@ -104,6 +121,9 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
                 leading: const Icon(Icons.auto_fix_high),
                 title: const Text("Adjust Timer Interval"),
                 trailing: Text(getAdjustIntervalMinute(_adjustInterval)),
+                description: kIsWeb
+                    ? Text(getAdjustIntervalMinute(_adjustInterval))
+                    : null,
                 onPressed: (context) async {
                   var resultingDuration = await showDurationPicker(
                     context: context,
@@ -178,6 +198,8 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
               SettingsTile(
                 leading: const Icon(Icons.code),
                 title: const Text("App Version"),
+                description:
+                    kIsWeb ? const Text('$appVersion ($buildVersion)') : null,
                 trailing: const Text('$appVersion ($buildVersion)'),
                 onPressed: (context) => {
                   launchUrl(Uri.parse(
@@ -188,6 +210,7 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
                 leading: const Icon(Icons.email),
                 title: const Text("E-Mail"),
                 trailing: const Text("mirko@codepunks.net"),
+                description: kIsWeb ? const Text("mirko@codepunks.net") : null,
                 onPressed: (context) =>
                     {launchUrl(Uri.parse("https://www.codepunks.net"))},
               ),
@@ -195,6 +218,7 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
                 leading: const Icon(Icons.copyright),
                 title: Text("$year Mirko Oleszuk"),
                 trailing: const Text("codepunks.net"),
+                description: kIsWeb ? const Text("codepunks.net") : null,
                 onPressed: (context) =>
                     {launchUrl(Uri.parse("https://www.codepunks.net"))},
               )
