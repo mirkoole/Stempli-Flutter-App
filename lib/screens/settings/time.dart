@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, diagnostic_describe_all_properties
 
 import 'package:duration_picker/duration_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:stempli_flutter/main.dart';
@@ -89,6 +90,11 @@ class _CustomSettingsTimeScreenState extends State<CustomSettingsTimeScreen> {
                 leading: const Icon(Icons.timer),
                 title: const Text("Daily Work Time"),
                 enabled: !_customDailyWorkTimes,
+                description: kIsWeb
+                    ? !_customDailyWorkTimes
+                        ? Text(getDailyWorkTimeString(_dailyWorkTime))
+                        : const Text("")
+                    : null,
                 trailing: !_customDailyWorkTimes
                     ? Text(getDailyWorkTimeString(_dailyWorkTime))
                     : const Text(""),
@@ -136,6 +142,11 @@ class _CustomSettingsTimeScreenState extends State<CustomSettingsTimeScreen> {
                     SettingsTile(
                       leading: const Icon(Icons.calendar_month),
                       title: const Text('Monday'),
+                      description: kIsWeb
+                          ? Text(
+                              getDailyWorkTimeString(_dailyWorkTimes['mon']),
+                            )
+                          : null,
                       trailing: Text(
                         getDailyWorkTimeString(_dailyWorkTimes['mon']),
                       ),
@@ -145,6 +156,11 @@ class _CustomSettingsTimeScreenState extends State<CustomSettingsTimeScreen> {
                     SettingsTile(
                       leading: const Icon(Icons.calendar_month),
                       title: const Text('Tuesday'),
+                      description: kIsWeb
+                          ? Text(
+                              getDailyWorkTimeString(_dailyWorkTimes['tue']),
+                            )
+                          : null,
                       trailing: Text(
                         getDailyWorkTimeString(_dailyWorkTimes['tue']),
                       ),
@@ -154,6 +170,11 @@ class _CustomSettingsTimeScreenState extends State<CustomSettingsTimeScreen> {
                     SettingsTile(
                       leading: const Icon(Icons.calendar_month),
                       title: const Text('Wednesday'),
+                      description: kIsWeb
+                          ? Text(
+                              getDailyWorkTimeString(_dailyWorkTimes['wed']),
+                            )
+                          : null,
                       trailing: Text(
                         getDailyWorkTimeString(_dailyWorkTimes['wed']),
                       ),
@@ -163,6 +184,11 @@ class _CustomSettingsTimeScreenState extends State<CustomSettingsTimeScreen> {
                     SettingsTile(
                       leading: const Icon(Icons.calendar_month),
                       title: const Text('Thursday'),
+                      description: kIsWeb
+                          ? Text(
+                              getDailyWorkTimeString(_dailyWorkTimes['thu']),
+                            )
+                          : null,
                       trailing: Text(
                         getDailyWorkTimeString(_dailyWorkTimes['thu']),
                       ),
@@ -172,6 +198,11 @@ class _CustomSettingsTimeScreenState extends State<CustomSettingsTimeScreen> {
                     SettingsTile(
                       leading: const Icon(Icons.calendar_month),
                       title: const Text('Friday'),
+                      description: kIsWeb
+                          ? Text(
+                              getDailyWorkTimeString(_dailyWorkTimes['fri']),
+                            )
+                          : null,
                       trailing: Text(
                         getDailyWorkTimeString(_dailyWorkTimes['fri']),
                       ),
@@ -181,6 +212,11 @@ class _CustomSettingsTimeScreenState extends State<CustomSettingsTimeScreen> {
                     SettingsTile(
                       leading: const Icon(Icons.calendar_month),
                       title: const Text('Saturday'),
+                      description: kIsWeb
+                          ? Text(
+                              getDailyWorkTimeString(_dailyWorkTimes['sat']),
+                            )
+                          : null,
                       trailing: Text(
                         getDailyWorkTimeString(_dailyWorkTimes['sat']),
                       ),
@@ -190,6 +226,11 @@ class _CustomSettingsTimeScreenState extends State<CustomSettingsTimeScreen> {
                     SettingsTile(
                       leading: const Icon(Icons.calendar_month),
                       title: const Text('Sunday'),
+                      description: kIsWeb
+                          ? Text(
+                              getDailyWorkTimeString(_dailyWorkTimes['sun']),
+                            )
+                          : null,
                       trailing: Text(
                         getDailyWorkTimeString(_dailyWorkTimes['sun']),
                       ),
