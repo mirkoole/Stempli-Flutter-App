@@ -442,6 +442,8 @@ class _HomeScreenState extends State<HomeScreen> {
     if (overTime > 0) {
       _resetTimer(showSnackbar: false);
       _workTimeTotal += overTime;
+      await _saveState();
+
       _showSimpleSnackBar("💼 Timer reset and overtime moved to today!",
           const Duration(seconds: 10));
     } else {
