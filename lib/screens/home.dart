@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String _workTimeTotalString = ' ';
   String _breakTimeTotalString = ' ';
 
-  bool _allowResetTimer = true;
+  bool _disableAppBarButtons = false;
 
   @override
   void initState() {
@@ -204,21 +204,21 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(
               Icons.work,
             ),
-            onPressed: _plusWorkTime,
+            onPressed: _disableAppBarButtons ? _plusWorkTime : null,
             tooltip: 'Add $adjustIntervalMin minutes to Worktime',
           ),
           IconButton(
             icon: const Icon(
               Icons.coffee,
             ),
-            onPressed: _plusBreakTime,
+            onPressed: _disableAppBarButtons ? _plusBreakTime : null,
             tooltip: 'Add ${_adjustInterval ~/ 60} minutes to Breaktime',
           ),
           IconButton(
             icon: const Icon(
               Icons.auto_fix_high,
             ),
-            onPressed: _moveBreakToWorkTime,
+            onPressed: _disableAppBarButtons ? _moveBreakToWorkTime : null,
             tooltip:
                 'Move ${_adjustInterval ~/ 60} minutes from Break to Worktime',
           ),
@@ -226,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(
               Icons.refresh,
             ),
-            onPressed: _allowResetTimer ? _resetTimer : null,
+            onPressed: _disableAppBarButtons ? _resetTimer : null,
             tooltip: 'Reset Timer',
           ),
           IconButton(
@@ -451,10 +451,10 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+
+
   Future<void> _resetTimer({bool showSnackbar = true}) async {
-    // disable button for some seconds to avoid double calls
-    _allowResetTimer = false;
-    Timer(const Duration(seconds: 5), () => _allowResetTimer = true);
+    disableAppBarButtons();
 
     // save vars for possible undo
     final oldWorking = _working;
@@ -480,7 +480,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _lastToggleTimestamp = oldLastToggleTimestamp;
           _workTimeTotal = oldWorkTimeTotal;
           _breakTimeTotal = oldBreakTimeTotal;
-          _allowResetTimer = true;
+          _disableAppBarButtons = false;
           _saveState();
         },
       ),
@@ -490,5 +490,11 @@ class _HomeScreenState extends State<HomeScreen> {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
+  }
+
+  void disableAppBarButtons() {
+      // disable button for some seconds to avoid double calls
+    _disableAppBarButtons = true;
+    Timer(const Duration(seconds: 5), () => _disableAppBarButtons = false);
   }
 }
