@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String _workTimeTotalString = ' ';
   String _breakTimeTotalString = ' ';
 
-  bool _disableAppBarButtons = false;
+  bool _enableAppBarButtons = true;
 
   @override
   void initState() {
@@ -204,21 +204,21 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(
               Icons.work,
             ),
-            onPressed: _disableAppBarButtons ? _plusWorkTime : null,
+            onPressed: _enableAppBarButtons ? _plusWorkTime : null,
             tooltip: 'Add $adjustIntervalMin minutes to Worktime',
           ),
           IconButton(
             icon: const Icon(
               Icons.coffee,
             ),
-            onPressed: _disableAppBarButtons ? _plusBreakTime : null,
+            onPressed: _enableAppBarButtons ? _plusBreakTime : null,
             tooltip: 'Add ${_adjustInterval ~/ 60} minutes to Breaktime',
           ),
           IconButton(
             icon: const Icon(
               Icons.auto_fix_high,
             ),
-            onPressed: _disableAppBarButtons ? _moveBreakToWorkTime : null,
+            onPressed: _enableAppBarButtons ? _moveBreakToWorkTime : null,
             tooltip:
                 'Move ${_adjustInterval ~/ 60} minutes from Break to Worktime',
           ),
@@ -226,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(
               Icons.refresh,
             ),
-            onPressed: _disableAppBarButtons ? _resetTimer : null,
+            onPressed: _enableAppBarButtons ? _resetTimer : null,
             tooltip: 'Reset Timer',
           ),
           IconButton(
@@ -480,7 +480,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _lastToggleTimestamp = oldLastToggleTimestamp;
           _workTimeTotal = oldWorkTimeTotal;
           _breakTimeTotal = oldBreakTimeTotal;
-          _disableAppBarButtons = false;
+          _enableAppBarButtons = true;
           _saveState();
         },
       ),
@@ -494,7 +494,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void disableAppBarButtons() {
       // disable button for some seconds to avoid double calls
-    _disableAppBarButtons = true;
-    Timer(const Duration(seconds: 5), () => _disableAppBarButtons = false);
+    _enableAppBarButtons = false;
+    Timer(const Duration(seconds: 5), () => _enableAppBarButtons = true);
   }
 }
