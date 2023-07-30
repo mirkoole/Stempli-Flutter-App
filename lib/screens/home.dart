@@ -270,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: [
                       Text(
-                        '⏱️ Work Countdown',
+                        '⏱️ Countdown',
                         style: Theme.of(context).textTheme.headlineLarge,
                       ),
                       Text(
@@ -313,7 +313,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: [
                     Text(
-                      '☕️ Breaktime ',
+                      '☕️ Breaktime',
                       style: Theme.of(context).textTheme.headlineLarge,
                     ),
                     Text(
