@@ -204,21 +204,21 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(
               Icons.work,
             ),
-            onPressed: _enableAppBarButtons ? _plusWorkTime : null,
+            onPressed: _plusWorkTime,
             tooltip: 'Add $adjustIntervalMin minutes to Worktime',
           ),
           IconButton(
             icon: const Icon(
               Icons.coffee,
             ),
-            onPressed: _enableAppBarButtons ? _plusBreakTime : null,
+            onPressed: _plusBreakTime,
             tooltip: 'Add ${_adjustInterval ~/ 60} minutes to Breaktime',
           ),
           IconButton(
             icon: const Icon(
               Icons.auto_fix_high,
             ),
-            onPressed: _enableAppBarButtons ? _moveBreakToWorkTime : null,
+            onPressed: _moveBreakToWorkTime,
             tooltip:
                 'Move ${_adjustInterval ~/ 60} minutes from Break to Worktime',
           ),
