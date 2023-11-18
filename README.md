@@ -25,13 +25,15 @@ Work Time | Break Time | Settings
 
 - add duration picker on settings page
 - add toggle for different daily worktimes
-- Refactoring Settings Menu
+- refactoring settings menu
 
 ## TODO
 
-- add locale
+- add translations
 - toggle timer via notification
 - add wear os compatibility
+- idea: add animation (e.g. fireworks) 
+- idea: rethink button layout (stop, pause, reset)
 
 ## Download
 
