@@ -12,5 +12,5 @@ const defaultShowCountdown = false;
 const defaultShowProgressbar = true;
 const defaultShowSeconds = true;
 
-const appVersion = '1.4.3';
-const buildVersion = '17';
+const appVersion = '1.4.4';
+const buildVersion = '18';
