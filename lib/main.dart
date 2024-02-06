@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:stempli_flutter/screens/home.dart';
-import 'package:stempli_flutter/screens/settings.dart';
-import 'package:stempli_flutter/screens/settings/language.dart';
-import 'package:stempli_flutter/screens/settings/time.dart';
-import 'package:stempli_flutter/themes/provider.dart';
-import 'package:stempli_flutter/themes/styles.dart';
+
+import 'screens/home.dart';
+import 'screens/settings.dart';
+import 'screens/settings/language.dart';
+import 'screens/settings/time.dart';
+import 'screens/history.dart';
+
+import 'themes/provider.dart';
+import 'themes/styles.dart';
 
 import 'utils/config.dart';
 
@@ -41,6 +44,7 @@ class StempliApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => const HomeScreen(title: 'Stempli'),
+          '/history': (context) => const HistoryScreen(title: 'History'),
           '/settings': (context) =>
               const CustomSettingsScreen(title: 'Settings'),
           '/settings/language': (context) =>
