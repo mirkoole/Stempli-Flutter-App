@@ -4,8 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:settings_ui/settings_ui.dart';
-import 'package:stempli_flutter/main.dart';
-import 'package:stempli_flutter/utils/config.dart';
+
+import '../../main.dart';
+import '../../utils/config.dart';
 
 class CustomSettingsLanguageScreen extends StatefulWidget {
   const CustomSettingsLanguageScreen({required this.title, super.key});

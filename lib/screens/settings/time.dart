@@ -1,12 +1,14 @@
 // ignore_for_file: public_member_api_docs, diagnostic_describe_all_properties
 
-import 'package:duration_picker/duration_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import 'package:duration_picker/duration_picker.dart';
 import 'package:settings_ui/settings_ui.dart';
-import 'package:stempli_flutter/main.dart';
-import 'package:stempli_flutter/utils/config.dart';
-import 'package:stempli_flutter/utils/datetime.dart';
+
+import '../../main.dart';
+import '../../utils/config.dart';
+import '../../utils/datetime.dart';
 
 class CustomSettingsTimeScreen extends StatefulWidget {
   const CustomSettingsTimeScreen({required this.title, super.key});
