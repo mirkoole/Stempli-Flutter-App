@@ -3,10 +3,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:stempli_flutter/main.dart';
 
-import 'package:stempli_flutter/utils/config.dart';
-
+import '../main.dart';
+import '../utils/config.dart';
 import '../utils/datetime.dart';
 
 class HomeScreen extends StatefulWidget {
