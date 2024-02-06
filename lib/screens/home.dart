@@ -230,6 +230,16 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           IconButton(
             icon: const Icon(
+              Icons.calendar_month,
+            ),
+            onPressed: () async => {
+              Navigator.pushNamed(context, '/history')
+                  .then((_) => setState(() {}))
+            },
+            tooltip: 'Settings',
+          ),
+          IconButton(
+            icon: const Icon(
               Icons.settings,
             ),
             onPressed: () async => {
@@ -237,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   .then((_) => setState(() {}))
             },
             tooltip: 'Settings',
-          )
+          ),
         ],
       ),
       body: SafeArea(
@@ -450,8 +460,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-
-
   Future<void> _resetTimer({bool showSnackbar = true}) async {
     disableAppBarButtons();
 
@@ -492,7 +500,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void disableAppBarButtons() {
-      // disable button for some seconds to avoid double calls
+    // disable button for some seconds to avoid double calls
     _enableAppBarButtons = false;
     Timer(const Duration(seconds: 5), () => _enableAppBarButtons = true);
   }
