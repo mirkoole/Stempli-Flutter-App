@@ -27,6 +27,10 @@ void main() async {
     sharedPreferences.setString("buildVersion", buildVersion);
   }
 
+  if (sharedPreferences.getStringList("history") == null) {
+    sharedPreferences.setStringList("history", List.empty());
+  }
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeProvider(),
