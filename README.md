@@ -29,11 +29,18 @@ Work Time | Break Time | Settings
 
 ## TODO
 
+### History
+- add history (button to store daily worktime)
+- edit history
+- delete history after certain time
+
+### Misc
 - add translations
 - toggle timer via notification
 - add wear os compatibility
-- idea: add animation (e.g. fireworks) 
+- idea: add animation (e.g. fireworks)
 - idea: rethink button layout (stop, pause, reset)
+- bug: update pwa icon
 
 ## Download
 
