@@ -110,20 +110,25 @@ class _HomeScreenState extends State<HomeScreen> {
     sharedPreferences.setInt('breakTimeTotal', _breakTimeTotal);
     sharedPreferences.setInt('lastToggleTimestamp', _lastToggleTimestamp);
 
-    // Feierabend
-    if (!_working) {
-      var today =
-          "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
-      var dataToSave = "$today $_workTimeTotal";
+    _saveToHistory(_workTimeTotal);
+  }
 
-      List<String> history = sharedPreferences.getStringList("history")!;
-      if (history.isNotEmpty && history.last.startsWith(today)) {
-        history.removeLast();
-      }
+  _saveToHistory(int worktime) {
+    _workTimeTotalString = _printFormattedTimeTotal(worktime);
 
-      history.add(dataToSave);
-      sharedPreferences.setStringList("history", history);
+    var day = DateTime.now().day.toString().padLeft(2, '0');
+    var month = DateTime.now().month.toString().padLeft(2, '0');
+
+    var today = "$day.$month.${DateTime.now().year}";
+    var dataToSave = "$today $_workTimeTotalString";
+
+    List<String> history = sharedPreferences.getStringList("history")!;
+    if (history.isNotEmpty && history.last.startsWith(today)) {
+      history.removeLast();
     }
+
+    history.add(dataToSave);
+    sharedPreferences.setStringList("history", history);
   }
 
   Future<void> _displayTimer(Timer? timer) async {

@@ -20,19 +20,16 @@ Work Time | Break Time | Settings
 - toggle display countdown
 - toggle dark mode
 - material 3 design
+- store history in local storage
 
 ## Last Changes
 
+- add local history storage
 - add duration picker on settings page
 - add toggle for different daily worktimes
 - refactoring settings menu
 
 ## TODO
-
-### History
-- add history (button to store daily worktime)
-- edit history
-- delete history after certain time
 
 ### Misc
 - add translations

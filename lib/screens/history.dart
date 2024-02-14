@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stempli_flutter/main.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({required this.title, super.key});
@@ -10,58 +12,82 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
+  List<String> _historyList = List.empty(growable: true);
+
   @override
   void initState() {
     super.initState();
-
-    _deleteHistoryOlderThan1Month();
+    _loadHistory();
   }
 
-  _getHistoryItemWidget(String weekday, String date, String worktime) {
+  _loadHistory() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    _historyList = sharedPreferences.getStringList("history")!;
+    _deleteHistoryExceptLast30Days();
+    setState(() {});
+  }
+
+  _getHistoryItemWidget(String date, String worktime) {
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text(weekday),
         Text(date),
         Text(worktime),
       ],
     );
   }
 
+  _getItems() {
+    List<Widget> widgetList = List.empty(growable: true);
+
+    for (var item in _historyList) {
+      var split = item.split(" ");
+      widgetList.add(_getHistoryItemWidget(split[0], split[1]));
+    }
+
+    if (widgetList.isEmpty) {
+      widgetList.add(const Center(child: Text("\nNo Work = No History!")));
+    }
+
+    setState(() {});
+
+    return widgetList;
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Widget> _items = [];
-    _items.add(_getHistoryItemWidget("Mo", "05.02.24", "working"));
-    _items.add(const Divider());
-    _items.add(_getHistoryItemWidget("Fr", "02.02.24", "07:30h"));
-    _items.add(_getHistoryItemWidget("Th", "01.02.24", "07:30h"));
-    _items.add(_getHistoryItemWidget("We", "31.01.24", "07:30h"));
-    _items.add(_getHistoryItemWidget("Tu", "30.02.24", "07:30h"));
-    _items.add(_getHistoryItemWidget("Mo", "29.02.24", "07:30h"));
-    _items.add(const Divider());
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions: [
-          IconButton(
-              onPressed: () => _deleteHistory(), icon: const Icon(Icons.delete))
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () => _deleteHistory(), icon: const Icon(Icons.delete))
+        // ],
       ),
       body: SafeArea(
-        child: ListView(
-          children: _items,
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                children: _getItems(),
+              ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            const Text("History only stores 30 days."),
+            const SizedBox(height: 64),
+          ],
         ),
       ),
     );
   }
-}
 
-void _deleteHistoryOlderThan1Month() {
-  print("_deleteHistoryOlderThan1Month");
-}
-
-void _deleteHistory() {
-  print("deleteHistory() = deleteHistory()");
+  void _deleteHistoryExceptLast30Days() {
+    if (_historyList.length > 30) {
+      _historyList.removeAt(0);
+      sharedPreferences.setStringList("history", _historyList);
+    }
+  }
 }
