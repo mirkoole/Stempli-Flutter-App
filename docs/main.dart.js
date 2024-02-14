@@ -68264,9 +68264,9 @@ r=A.w1(A.a([A.aiM(B.iA,B.cD,new A.a5d(),B.OP,B.iA),A.GK(m,n.f,B.Cw,new A.a5e(n,a
 p=n.y
 o=p?B.wf:A.bh(A.dN(n.d),m)
 p=p?B.wf:A.bh(A.dN(n.d),m)
-p=A.aiM(o,B.c0,new A.a5g(n),B.wj,p)
+p=A.aiM(o,B.c0,new A.a5g(n),B.wk,p)
 o=A.bh(A.alG(n.e),m)
-return A.Gk(s,A.adX(A.a([r,A.w1(A.a([p,A.dT(A.bh(A.alG(n.e),m),!0,B.kN,new A.a5h(n),B.OH,o),A.GK(m,n.w,B.c0,new A.a5i(n),B.Ot),A.GK(m,n.x,B.c0,new A.a5j(n),B.OF),A.GK(m,n.r,B.c0,new A.a5k(n),B.Oq)],q),B.Op),A.w1(A.a([A.dT(B.wk,!0,B.Cu,new A.a5l(),B.OK,B.wk),A.dT(B.wg,!0,B.Cs,new A.a5m(),B.Ox,B.wg),A.dT(B.we,!0,B.Cq,new A.a5n(),A.bh(""+A.adL(new A.e6(Date.now(),!1))+" Mirko Oleszuk",m),B.we)],t.jD),B.OA)],t.m0)),m,m)}}
+return A.Gk(s,A.adX(A.a([r,A.w1(A.a([p,A.dT(A.bh(A.alG(n.e),m),!0,B.kN,new A.a5h(n),B.OH,o),A.GK(m,n.w,B.c0,new A.a5i(n),B.Ot),A.GK(m,n.x,B.c0,new A.a5j(n),B.OF),A.GK(m,n.r,B.c0,new A.a5k(n),B.Oq)],q),B.Op),A.w1(A.a([A.dT(B.wj,!0,B.Cu,new A.a5l(),B.OK,B.wj),A.dT(B.wg,!0,B.Cs,new A.a5m(),B.Ox,B.wg),A.dT(B.we,!0,B.Cq,new A.a5n(),A.bh(""+A.adL(new A.e6(Date.now(),!1))+" Mirko Oleszuk",m),B.we)],t.jD),B.OA)],t.m0)),m,m)}}
 A.a5d.prototype={
 $1(a){return this.Nt(a)},
 Nt(a){var s=0,r=A.S(t.ZB),q
@@ -68447,7 +68447,7 @@ s=A.AW(n,A.bh("Daily Work Time",n))
 r=!o.d
 q=r?A.bh(A.dN(o.e),n):B.wh
 p=!o.d?A.bh(A.dN(o.e),n):B.wh
-p=A.w1(A.a([A.dT(q,r,B.c0,new A.a5q(o),B.wj,p),A.GK(B.Ov,o.d,B.c0,new A.a5r(o),B.Oo)],t.M7),B.Or)
+p=A.w1(A.a([A.dT(q,r,B.c0,new A.a5q(o),B.wk,p),A.GK(B.Ov,o.d,B.c0,new A.a5r(o),B.Oo)],t.M7),B.Or)
 if(o.d){r=o.f
 r=A.w1(A.a([A.dT(A.bh(A.dN(r.k(0,"mon")),n),!0,B.ba,new A.a5s(o),B.OB,A.bh(A.dN(r.k(0,"mon")),n)),A.dT(A.bh(A.dN(r.k(0,"tue")),n),!0,B.ba,new A.a5t(o),B.OC,A.bh(A.dN(r.k(0,"tue")),n)),A.dT(A.bh(A.dN(r.k(0,"wed")),n),!0,B.ba,new A.a5u(o),B.OM,A.bh(A.dN(r.k(0,"wed")),n)),A.dT(A.bh(A.dN(r.k(0,"thu")),n),!0,B.ba,new A.a5v(o),B.OR,A.bh(A.dN(r.k(0,"thu")),n)),A.dT(A.bh(A.dN(r.k(0,"fri")),n),!0,B.ba,new A.a5w(o),B.OD,A.bh(A.dN(r.k(0,"fri")),n)),A.dT(A.bh(A.dN(r.k(0,"sat")),n),!0,B.ba,new A.a5x(o),B.OI,A.bh(A.dN(r.k(0,"sat")),n)),A.dT(A.bh(A.dN(r.k(0,"sun")),n),!0,B.ba,new A.a5y(o),B.OJ,A.bh(A.dN(r.k(0,"sun")),n))],t.jD),B.OQ)}else r=B.BN
 return A.Gk(s,A.adX(A.a([p,r],t.m0)),n,n)}}
@@ -73278,18 +73278,18 @@ B.OA=new A.b6("About",null,null,null,null)
 B.OB=new A.b6("Monday",null,null,null,null)
 B.OC=new A.b6("Tuesday",null,null,null,null)
 B.wi=new A.b6("coming soon",null,null,null,null)
+B.wj=new A.b6("1.5.0 (18)",null,null,null,null)
 B.OD=new A.b6("Friday",null,null,null,null)
 B.OE=new A.b6("\u2705",null,null,null,null)
 B.OF=new A.b6("Show Countdown",null,null,null,null)
 B.OG=new A.b6("General",null,null,null,null)
 B.OH=new A.b6("Adjust Timer Interval",null,null,null,null)
 B.OI=new A.b6("Saturday",null,null,null,null)
-B.wj=new A.b6("Daily Work Time",null,null,null,null)
+B.wk=new A.b6("Daily Work Time",null,null,null,null)
 B.OJ=new A.b6("Sunday",null,null,null,null)
 B.OK=new A.b6("App Version",null,null,null,null)
 B.OL=new A.b6("Select your language.",null,null,null,null)
 B.OM=new A.b6("Wednesday",null,null,null,null)
-B.wk=new A.b6("1.4.4 (18)",null,null,null,null)
 B.ON=new A.b6("Fran\xe7ais",null,null,null,null)
 B.OO=new A.b6("Espa\xf1ol",null,null,null,null)
 B.OP=new A.b6("Language",null,null,null,null)
