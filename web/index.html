@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -36,22 +36,21 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
-  <script>
-    {{flutter_build_config}}
-
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.load({
-        serviceWorker: {
-          serviceWorkerVersion: {{flutter_service_worker_version}},
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
+<script>
+{{flutter_build_config}}
+window.addEventListener('load', function(ev) {
+  // Download main.dart.js
+  _flutter.loader.load({
+    serviceWorker: {
+      serviceWorkerVersion: {{flutter_service_worker_version}},
+    },
+    onEntrypointLoaded: function(engineInitializer) {
+      engineInitializer.initializeEngine().then(function(appRunner) {
+        appRunner.runApp();
       });
-    });
-  </script>
+    }
+  });
+});
+</script>
 </body>
 </html>

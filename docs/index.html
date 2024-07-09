@@ -36,26 +36,25 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
-  <script>
-    if (!window._flutter) {
+<script>
+if (!window._flutter) {
   window._flutter = {};
 }
 _flutter.buildConfig = {"engineRevision":"edd8546116457bdf1c5bdfb13ecb9463d2bb5ed4","builds":[{"compileTarget":"dart2js","renderer":"auto","mainJsPath":"main.dart.js"}]};
 
-
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.load({
-        serviceWorker: {
-          serviceWorkerVersion: "1330192263",
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
+window.addEventListener('load', function(ev) {
+  // Download main.dart.js
+  _flutter.loader.load({
+    serviceWorker: {
+      serviceWorkerVersion: "494970643",
+    },
+    onEntrypointLoaded: function(engineInitializer) {
+      engineInitializer.initializeEngine().then(function(appRunner) {
+        appRunner.runApp();
       });
-    });
-  </script>
+    }
+  });
+});
+</script>
 </body>
 </html>
