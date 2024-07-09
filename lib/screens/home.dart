@@ -386,7 +386,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
 
-    if (context.mounted) {
+    if (mounted) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
@@ -408,7 +408,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
 
-    if (context.mounted) {
+    if (mounted) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
@@ -446,7 +446,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
 
-    if (context.mounted) {
+    if (mounted) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
@@ -514,7 +514,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
 
-    if (context.mounted && showSnackbar == true) {
+    if (mounted && showSnackbar == true) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
