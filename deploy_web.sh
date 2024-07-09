@@ -4,7 +4,7 @@
 rm -r docs
 
 flutter clean
-flutter build web --base-href /Stempli-Flutter-App/
+flutter build web --base-href /Stempli-Flutter-App/ --source-maps
 
 mv build/web docs
 
