@@ -40,13 +40,13 @@
 if (!window._flutter) {
   window._flutter = {};
 }
-_flutter.buildConfig = {"engineRevision":"edd8546116457bdf1c5bdfb13ecb9463d2bb5ed4","builds":[{"compileTarget":"dart2js","renderer":"auto","mainJsPath":"main.dart.js"}]};
+_flutter.buildConfig = {"engineRevision":"b8800d88be4866db1b15f8b954ab2573bba9960f","builds":[{"compileTarget":"dart2js","renderer":"canvaskit","mainJsPath":"main.dart.js"}]};
 
 window.addEventListener('load', function(ev) {
   // Download main.dart.js
   _flutter.loader.load({
     serviceWorker: {
-      serviceWorkerVersion: "1582668429",
+      serviceWorkerVersion: "1414685960",
     },
     onEntrypointLoaded: function(engineInitializer) {
       engineInitializer.initializeEngine().then(function(appRunner) {
