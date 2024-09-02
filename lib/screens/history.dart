@@ -85,7 +85,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 
   void _deleteHistoryExceptLast30Days() {
-    if (_historyList.length > 30) {
+    while (_historyList.length > 31) {
       _historyList.removeAt(0);
       sharedPreferences.setStringList("history", _historyList);
     }
