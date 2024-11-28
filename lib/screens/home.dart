@@ -256,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.pushNamed(context, '/history')
                   .then((_) => setState(() {}))
             },
-            tooltip: 'Settings',
+            tooltip: 'History',
           ),
           IconButton(
             icon: const Icon(
