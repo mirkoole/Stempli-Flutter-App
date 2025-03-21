@@ -10,7 +10,7 @@ import '../utils/config.dart';
 class ThemeProvider with ChangeNotifier {
   bool _darkMode = sharedPreferences.getBool("darkMode") ?? defaultDarkMode;
   int _colorTheme =
-      sharedPreferences.getInt("colorTheme") ?? defaultColorTheme.value;
+      sharedPreferences.getInt("colorTheme") ?? defaultColorTheme.toARGB32();
 
   bool get darkTheme => _darkMode;
 
@@ -50,8 +50,8 @@ class ThemeProvider with ChangeNotifier {
 
     var random = Random().nextInt(colors.length);
 
-    if (colorTheme != colors[random].value) {
-      setColorTheme(colors[random].value);
+    if (colorTheme != colors[random].toARGB32()) {
+      setColorTheme(colors[random].toARGB32());
     } else {
       toggleColorThemes();
     }
