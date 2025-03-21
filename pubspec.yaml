@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.5.2+20 # see config.dart
+version: 1.5.3+21 # see config.dart
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
@@ -28,16 +28,16 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  analyzer: ^6.7.0
+  analyzer: ^7.3.0
   cupertino_icons: ^1.0.8
   settings_ui: ^2.0.2
   pref: ^2.8.0
   provider: ^6.1.2
-  shared_preferences: ^2.3.2
-  url_launcher: ^6.3.0
+  shared_preferences: ^2.5.2
+  url_launcher: ^6.3.1
   duration_picker: ^1.2.0
   #flutter_local_notifications: ^16.3.2
-  permission_handler: ^11.3.1
+  permission_handler: ^11.4.0
 
   flutter:
     sdk: flutter
@@ -51,8 +51,8 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^4.0.0
-  test: ^1.25.8
+  flutter_lints: ^5.0.0
+  test: ^1.25.15
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
