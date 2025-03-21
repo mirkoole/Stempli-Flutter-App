@@ -20614,7 +20614,7 @@ s=2
 return A.V(A.FA(),$async$ab8)
 case 2:j.b=b
 if(A.cd($.aA.a6().a.j(0,"buildVersion"))==null){$.aA.a6().L(0)
-$.aA.a6().co("String","buildVersion","20")}if($.aA.a6().vg("history")==null){q=$.aA.a6()
+$.aA.a6().co("String","buildVersion","21")}if($.aA.a6().vg("history")==null){q=$.aA.a6()
 p=J.CT(0,t.N)
 q.co("StringList","history",p)}if($.a9==null)A.aiy()
 q=$.a9
@@ -65475,9 +65475,9 @@ r=A.vO(A.c([A.ahP(B.iq,B.cW,new A.a4B(),B.P0,B.iq),A.Fy(m,n.f,B.C1,new A.a4C(n,a
 p=n.y
 o=p?B.w0:A.bg(A.dK(n.d),m)
 p=p?B.w0:A.bg(A.dK(n.d),m)
-p=A.ahP(o,B.ca,new A.a4E(n),B.w_,p)
+p=A.ahP(o,B.ca,new A.a4E(n),B.vZ,p)
 o=A.bg(A.akm(n.e),m)
-return A.EX(s,A.ad2(A.c([r,A.vO(A.c([p,A.dS(A.bg(A.akm(n.e),m),!0,B.kB,new A.a4F(n),B.OA,o),A.Fy(m,n.w,B.ca,new A.a4G(n),B.OM),A.Fy(m,n.x,B.ca,new A.a4H(n),B.OO),A.Fy(m,n.r,B.ca,new A.a4I(n),B.P4)],q),B.OY),A.vO(A.c([A.dS(B.vY,!0,B.C3,new A.a4J(),B.OS,B.vY),A.dS(B.vX,!0,B.C_,new A.a4K(),B.OW,B.vX),A.dS(B.vZ,!0,B.C2,new A.a4L(),A.bg(""+A.acR(new A.e2(Date.now(),0,!1))+" Mirko Oleszuk",m),B.vZ)],t.jD),B.OK)],t.m0)),m,m)}}
+return A.EX(s,A.ad2(A.c([r,A.vO(A.c([p,A.dS(A.bg(A.akm(n.e),m),!0,B.kB,new A.a4F(n),B.OA,o),A.Fy(m,n.w,B.ca,new A.a4G(n),B.OM),A.Fy(m,n.x,B.ca,new A.a4H(n),B.OO),A.Fy(m,n.r,B.ca,new A.a4I(n),B.P4)],q),B.OY),A.vO(A.c([A.dS(B.w_,!0,B.C3,new A.a4J(),B.OS,B.w_),A.dS(B.vX,!0,B.C_,new A.a4K(),B.OW,B.vX),A.dS(B.vY,!0,B.C2,new A.a4L(),A.bg(""+A.acR(new A.e2(Date.now(),0,!1))+" Mirko Oleszuk",m),B.vY)],t.jD),B.OK)],t.m0)),m,m)}}
 A.a4B.prototype={
 $1(a){return this.O0(a)},
 O0(a){var s=0,r=A.M(t.ZB),q
@@ -65654,7 +65654,7 @@ s=A.Az(n,A.bg("Daily Work Time",n))
 r=!o.d
 q=r?A.bg(A.dK(o.e),n):B.w1
 p=!o.d?A.bg(A.dK(o.e),n):B.w1
-p=A.vO(A.c([A.dS(q,r,B.ca,new A.a4O(o),B.w_,p),A.Fy(B.OE,o.d,B.ca,new A.a4P(o),B.ON)],t.M7),B.OH)
+p=A.vO(A.c([A.dS(q,r,B.ca,new A.a4O(o),B.vZ,p),A.Fy(B.OE,o.d,B.ca,new A.a4P(o),B.ON)],t.M7),B.OH)
 if(o.d){r=o.f
 r=A.vO(A.c([A.dS(A.bg(A.dK(r.j(0,"mon")),n),!0,B.bl,new A.a4Q(o),B.OD,A.bg(A.dK(r.j(0,"mon")),n)),A.dS(A.bg(A.dK(r.j(0,"tue")),n),!0,B.bl,new A.a4R(o),B.OT,A.bg(A.dK(r.j(0,"tue")),n)),A.dS(A.bg(A.dK(r.j(0,"wed")),n),!0,B.bl,new A.a4S(o),B.OZ,A.bg(A.dK(r.j(0,"wed")),n)),A.dS(A.bg(A.dK(r.j(0,"thu")),n),!0,B.bl,new A.a4T(o),B.OG,A.bg(A.dK(r.j(0,"thu")),n)),A.dS(A.bg(A.dK(r.j(0,"fri")),n),!0,B.bl,new A.a4U(o),B.OQ,A.bg(A.dK(r.j(0,"fri")),n)),A.dS(A.bg(A.dK(r.j(0,"sat")),n),!0,B.bl,new A.a4V(o),B.P1,A.bg(A.dK(r.j(0,"sat")),n)),A.dS(A.bg(A.dK(r.j(0,"sun")),n),!0,B.bl,new A.a4W(o),B.OL,A.bg(A.dK(r.j(0,"sun")),n))],t.jD),B.OF)}else r=B.Bo
 return A.EX(s,A.ad2(A.c([p,r],t.m0)),n,n)}}
@@ -70423,8 +70423,7 @@ B.OE=new A.b5("Enable this if your worktime is different on some days (e.g. shor
 B.OF=new A.b5("Weekly Work Time Settings",null,null,null,null)
 B.OG=new A.b5("Thursday",null,null,null,null)
 B.OH=new A.b5("Time Settings",null,null,null,null)
-B.vY=new A.b5("1.5.2 (20)",null,null,null,null)
-B.vZ=new A.b5("codepunks.net",null,null,null,null)
+B.vY=new A.b5("codepunks.net",null,null,null,null)
 B.OI=new A.b5("Deutsch",null,null,null,null)
 B.OJ=new A.b5("bald verf\xfcgbar",null,null,null,null)
 B.OK=new A.b5("About",null,null,null,null)
@@ -70436,9 +70435,10 @@ B.OO=new A.b5("Show Countdown",null,null,null,null)
 B.OP=new A.b5("General",null,null,null,null)
 B.OQ=new A.b5("Friday",null,null,null,null)
 B.OR=new A.b5("History only stores 30 days.",null,null,null,null)
-B.w_=new A.b5("Daily Work Time",null,null,null,null)
+B.vZ=new A.b5("Daily Work Time",null,null,null,null)
 B.OS=new A.b5("App Version",null,null,null,null)
 B.OT=new A.b5("Tuesday",null,null,null,null)
+B.w_=new A.b5("1.5.3 (21)",null,null,null,null)
 B.w0=new A.b5("custom",null,null,null,null)
 B.OV=new A.b5("\u2705",null,null,null,null)
 B.OW=new A.b5("E-Mail",null,null,null,null)
