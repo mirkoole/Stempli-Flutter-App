@@ -17,26 +17,26 @@ class ThemeProvider with ChangeNotifier {
   int get colorTheme => _colorTheme;
 
   /// setDarkTheme
-  setDarkTheme(bool value) async {
+  Future<void> setDarkTheme(bool value) async {
     _darkMode = value;
     await sharedPreferences.setBool('darkMode', value);
     notifyListeners();
   }
 
   /// setColorTheme
-  setColorTheme(int value) async {
+   void setColorTheme(int value) {
     _colorTheme = value;
-    await sharedPreferences.setInt('colorTheme', value);
+    sharedPreferences.setInt('colorTheme', value);
     notifyListeners();
   }
 
   /// toggle
-  toggle() {
+  void toggle() {
     setDarkTheme(!_darkMode);
   }
 
   /// toggleColorThemes
-  toggleColorThemes() {
+  void toggleColorThemes() {
     const colors = [
       Colors.green,
       Colors.red,

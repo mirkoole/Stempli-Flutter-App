@@ -20,14 +20,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
     _loadHistory();
   }
 
-  _loadHistory() async {
+  Future<void> _loadHistory() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     _historyList = sharedPreferences.getStringList("history")!;
     _deleteHistoryExceptLast30Days();
     setState(() {});
   }
 
-  _getHistoryItemWidget(String date, String worktime) {
+  Row _getHistoryItemWidget(String date, String worktime) {
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -38,7 +38,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
   }
 
-  _getItems() {
+  List<Widget> _getItems() {
     List<Widget> widgetList = List.empty(growable: true);
 
     for (var item in _historyList) {

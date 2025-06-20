@@ -20,7 +20,7 @@ class CustomSettingsLanguageScreen extends StatefulWidget {
 
 class _CustomSettingsLanguageScreenState
     extends State<CustomSettingsLanguageScreen> {
-  get year => DateTime.now().year;
+  int get year => DateTime.now().year;
 
   final String _language =
       sharedPreferences.getString('language') ?? defaultLanguage;

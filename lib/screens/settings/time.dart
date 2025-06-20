@@ -21,7 +21,7 @@ class CustomSettingsTimeScreen extends StatefulWidget {
 }
 
 class _CustomSettingsTimeScreenState extends State<CustomSettingsTimeScreen> {
-  get year => DateTime.now().year;
+  int get year => DateTime.now().year;
 
   bool _customDailyWorkTimes =
       sharedPreferences.getBool("customDailyWorkTimes") ??
@@ -32,7 +32,7 @@ class _CustomSettingsTimeScreenState extends State<CustomSettingsTimeScreen> {
 
   final Map _dailyWorkTimes = {};
 
-  resetCustomWorkTimes({bool reset = false}) {
+  void resetCustomWorkTimes({bool reset = false}) {
     const List days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
     if (!reset) {
@@ -55,7 +55,7 @@ class _CustomSettingsTimeScreenState extends State<CustomSettingsTimeScreen> {
     }
   }
 
-  showDurationPickerAndSave(String key) async {
+  Future<void> showDurationPickerAndSave(String key) async {
     var resultingDuration = await showDurationPicker(
       context: context,
       initialTime: Duration(seconds: _dailyWorkTimes[key]),

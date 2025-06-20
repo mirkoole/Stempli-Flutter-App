@@ -22,7 +22,7 @@ class CustomSettingsScreen extends StatefulWidget {
 }
 
 class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
-  get year => DateTime.now().year;
+  int get year => DateTime.now().year;
 
   final int _dailyWorkTime =
       sharedPreferences.getInt("dailyWorkTime") ?? defaultDailyWorkTime;
@@ -74,8 +74,8 @@ class _CustomSettingsScreenState extends State<CustomSettingsScreen> {
               SettingsTile(
                 leading: const Icon(Icons.color_lens),
                 title: const Text("App Color"),
-                onPressed: (context) async {
-                  await context.read<ThemeProvider>().toggleColorThemes();
+                onPressed: (context) {
+                  context.read<ThemeProvider>().toggleColorThemes();
                   setState(() {});
                 },
                 description: kIsWeb

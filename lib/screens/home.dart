@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  _readState() {
+  Future<void> _readState() async {
     // calc
     _working = sharedPreferences.getBool('working') ?? _working;
     _lastToggleTimestamp =
@@ -102,9 +102,10 @@ class _HomeScreenState extends State<HomeScreen> {
         sharedPreferences.getBool('showProgressbar') ?? defaultShowProgressbar;
 
     setState(() {});
+
   }
 
-  _saveState() {
+  Future<void> _saveState() async {
     sharedPreferences.setBool('working', _working);
     sharedPreferences.setInt('workTimeTotal', _workTimeTotal);
     sharedPreferences.setInt('breakTimeTotal', _breakTimeTotal);
@@ -113,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _saveToHistory(_workTimeTotal);
   }
 
-  _saveToHistory(int worktime) {
+  void _saveToHistory(int worktime) {
     _workTimeTotalString = _printFormattedTimeTotal(worktime);
 
     var day = DateTime.now().day.toString().padLeft(2, '0');
@@ -132,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _displayTimer(Timer? timer) async {
-    _readState();
+    await _readState();
 
     if (_lastToggleTimestamp == 0) {
       await _toggleTimer();
@@ -208,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _working = !_working;
     _lastToggleTimestamp = nowTimeStamp;
 
-    await _saveState();
+    _saveState();
   }
 
   @override
@@ -372,7 +373,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _plusWorkTime() async {
     _workTimeTotal += _adjustInterval;
-    await _saveState();
+    _saveState();
 
     final snackBar = SnackBar(
       duration: const Duration(seconds: 10),
@@ -394,7 +395,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _plusBreakTime() async {
     _breakTimeTotal += _adjustInterval;
-    await _saveState();
+    _saveState();
 
     final snackBar = SnackBar(
       duration: const Duration(seconds: 10),
@@ -429,7 +430,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _workTimeTotal += _adjustInterval;
     _breakTimeTotal -= _adjustInterval;
-    await _saveState();
+    _saveState();
 
     final snackBar = SnackBar(
       duration: const Duration(seconds: 10),
@@ -472,7 +473,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (overTime > 0) {
       _resetTimer(showSnackbar: false);
       _workTimeTotal += overTime;
-      await _saveState();
+      _saveState();
 
       _showSimpleSnackBar("💼 Timer reset and overtime moved to today!",
           const Duration(seconds: 10));
