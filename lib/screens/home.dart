@@ -102,7 +102,6 @@ class _HomeScreenState extends State<HomeScreen> {
         sharedPreferences.getBool('showProgressbar') ?? defaultShowProgressbar;
 
     setState(() {});
-
   }
 
   Future<void> _saveState() async {
@@ -362,11 +361,25 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(
-        onPressed: _toggleTimer,
-        tooltip: 'Toggle Work and Breaktimer',
-        child: _working ? const Icon(Icons.coffee) : const Icon(Icons.work),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            FloatingActionButton(
+              onPressed: _resetTimer,
+              tooltip: 'Reset Timer',
+              child: Icon(Icons.refresh),
+            ),
+            FloatingActionButton(
+              onPressed: _toggleTimer,
+              tooltip: 'Toggle Work and Breaktimer',
+              child:
+                  _working ? const Icon(Icons.coffee) : const Icon(Icons.work),
+            )
+          ],
+        ),
       ),
     );
   }
